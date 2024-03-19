@@ -13,12 +13,12 @@ class ::JsonDataSorter::ApplicationTest < Minitest::Test
   ########## Regular Cases ##########
 
   def test_sort_json_data_by_asc
-    ::JsonDataSorter::Application.run(filepath: filepath)
+    ::JsonDataSorter::Application.run(filepath:)
     assert_equal(actual_json, sorted_user_data_by_asc)
   end
 
   def test_sort_json_data_by_desc
-    ::JsonDataSorter::Application.run(filepath: filepath, order: :desc)
+    ::JsonDataSorter::Application.run(filepath:, order: :desc)
     assert_equal(actual_json, sorted_user_data_by_desc)
   end
 
@@ -26,14 +26,14 @@ class ::JsonDataSorter::ApplicationTest < Minitest::Test
 
   def test_sort_json_data_with_invalid_data_type_of_order
     error = assert_raises NoMethodError do
-      ::JsonDataSorter::Application.run(filepath: filepath, order: 1)
+      ::JsonDataSorter::Application.run(filepath:, order: 1)
     end
     assert_equal(error.message, "undefined method `to_sym' for an instance of Integer")
   end
 
   def test_sort_json_data_with_invalid_order_type
     error = assert_raises RuntimeError do
-      ::JsonDataSorter::Application.run(filepath: filepath, order: :hoge)
+      ::JsonDataSorter::Application.run(filepath:, order: :hoge)
     end
     assert_equal(error.message, 'Order option must be either :asc or :desc')
   end
