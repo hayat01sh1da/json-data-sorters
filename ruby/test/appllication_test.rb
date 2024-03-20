@@ -4,52 +4,58 @@ require_relative '../src/application'
 
 class ::JsonDataSorter::ApplicationTest < Minitest::Test
   def setup
-    @directory = File.join('test', 'tmp')
-    @filepath  = File.join(directory, 'users.json')
-    FileUtils.mkdir_p(directory) unless Dir.exist?(directory)
+    @dirname  = File.join('test', 'tmp')
+    @filename = 'users.json'
+    @filepath = File.join(dirname, filename)
+    FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)
     IO.write(filepath, json_data)
   end
 
   ########## Regular Cases ##########
 
   def test_sort_json_data_by_asc
-    ::JsonDataSorter::Application.run(filepath:)
+    ::JsonDataSorter::Application.run(dirname:, filename:)
     assert_equal(actual_json, sorted_user_data_by_asc)
   end
 
   def test_sort_json_data_by_desc
-    ::JsonDataSorter::Application.run(filepath:, order: :desc)
+    ::JsonDataSorter::Application.run(dirname:, filename:, order: :desc)
     assert_equal(actual_json, sorted_user_data_by_desc)
   end
 
   ########## Irregular Cases ##########
 
-  def test_sort_json_data_with_invalid_data_type_of_order
-    error = assert_raises NoMethodError do
-      ::JsonDataSorter::Application.run(filepath:, order: 1)
+  def test_sort_json_data_with_no_filename
+    error = assert_raises RuntimeError do
+      ::JsonDataSorter::Application.run(dirname:, filename: '')
     end
-    assert_equal(error.message, "undefined method `to_sym' for an instance of Integer")
+    assert_equal(error.message, 'Filename must be provided')
   end
 
   def test_sort_json_data_with_invalid_order_type
     error = assert_raises RuntimeError do
-      ::JsonDataSorter::Application.run(filepath:, order: :hoge)
+      ::JsonDataSorter::Application.run(dirname:, filename:, order: :hoge)
     end
     assert_equal(error.message, 'Order option must be either :asc or :desc')
   end
 
+  def test_sort_json_data_with_invalid_data_type_of_order
+    error = assert_raises RuntimeError do
+      ::JsonDataSorter::Application.run(dirname:, filename:, order: 1)
+    end
+    assert_equal(error.message, 'Unexpected param was provided')
+  end
+
   def teardown
-    FileUtils.rm_rf(directory) if Dir[File.join(directory, '*.json')].any?
+    FileUtils.rm_rf(dirname) if Dir[File.join(dirname, '*.json')].any?
   end
 
   private
 
-  attr_reader :directory, :filepath
+  attr_reader :dirname, :filename, :filepath
 
   def actual_json
-    File.open(filepath) { |f|
-      JSON.load(f).deep_symbolize_keys
-    }
+    File.open(filepath) { |f| JSON.load(f).deep_symbolize_keys }
   end
 
   def json_data

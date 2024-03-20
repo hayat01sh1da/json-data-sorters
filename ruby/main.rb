@@ -1,5 +1,10 @@
 require_relative './src/application'
 
-filepath    = File.join('json', 'settings.json')
-application = ::JsonDataSorter::Application.run(filepath:)
-puts "JSON data has been successfully exported in #{filepath} 🎉"
+dirname      = File.join('..', 'json')
+filename, *_ = ARGV
+filename     = filename || ''
+filepath     = File.join(dirname, filename)
+
+puts "Start exporting JSON data in #{filepath}"
+application  = ::JsonDataSorter::Application.run(dirname:, filename:)
+puts "Done export JSON data in #{filepath} 🎉"
