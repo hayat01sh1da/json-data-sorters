@@ -9,32 +9,41 @@ from application import Application
 
 class TestApplication(unittest.TestCase):
     def setUp(self):
-        self.directory = os.path.join('test', 'tmp')
-        self.filepath  = os.path.join(self.directory, 'users.json')
-        if not os.path.isdir(self.directory):
-            os.makedirs(self.directory)
+        self.dirname  = os.path.join('test', 'tmp')
+        self.filename = 'users.json'
+        self.filepath = os.path.join(self.dirname, self.filename)
+        if not os.path.isdir(self.dirname):
+            os.makedirs(self.dirname)
         with open(self.filepath, 'w') as f:
             f.write(self.__json_data__())
 
     ########## Regular Cases ##########
 
     def test_sort_json_data_by_asc(self):
-        Application(filepath = self.filepath).run()
+        Application(self.dirname, self.filename).run()
         self.assertEqual(self.__actual_json__(), self.__sorted_user_data_by_asc__())
 
     def test_sort_json_data_by_desc(self):
-        Application(filepath = self.filepath, order = 'desc').run()
+        Application(self.dirname, self.filename, order = 'desc').run()
         self.assertEqual(self.__actual_json__(), self.__sorted_user_data_by_desc__())
 
     ########## Irregular Cases ##########
 
     def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'order option must be either asc or desc'):
-            Application(filepath = self.filepath, order = 'hoge').run()
+        with self.assertRaises(ValueError, msg = 'Filename must be provided'):
+            Application(self.dirname, '').run()
+
+    def test_sort_json_data_with_invalid_order_type(self):
+        with self.assertRaises(ValueError, msg = 'Order option must be either asc or desc'):
+            Application(self.dirname, self.filename, order = 'hoge').run()
+
+    def test_sort_json_data_with_invalid_order_type(self):
+        with self.assertRaises(ValueError, msg = 'Unexpected param was provided'):
+            Application(self.dirname, self.filename, order = 1).run()
 
     def tearDown(self):
         if self.__has_json_file__():
-            shutil.rmtree(self.directory)
+            shutil.rmtree(self.dirname)
 
     # private
 
@@ -223,7 +232,7 @@ class TestApplication(unittest.TestCase):
         }
 
     def __has_json_file__(self):
-        return len(glob.glob(os.path.join(self.directory, '*.json'))) >= 1
+        return len(glob.glob(os.path.join(self.dirname, '*.json'))) >= 1
 
 if __name__ == '__main__':
     unittest.main()

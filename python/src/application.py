@@ -1,15 +1,31 @@
+import os
 import json
 
 class Application:
-  def __init__(self, filepath, order = 'asc'):
-      self.filepath = filepath
-      if order != 'asc' and order != 'desc':
-          raise ValueError('order option must be either asc or desc')
+  def __init__(self, dirname, filename, order = 'asc'):
+      self.dirname = dirname
+      if len(filename) == 0:
+          raise ValueError('Filename must be provided')
+      self.filename = filename
+      self.filepath = os.path.join(dirname, filename)
+      if not (order == 'asc' or order == 'desc'):
+          raise ValueError('Order option must be either asc or desc')
+      if not str(type(order)) == "<class 'str'>":
+          raise ValueError('Unexpected param was provided')
       self.order = order
 
   def run(self):
-      with open(self.filepath, 'a') as f:
-          f.write(self.__dump_sorted_json_data__())
+      if not os.path.isdir(self.dirname):
+          os.makedirs(self.dirname)
+      if not os.path.isfile(self.filepath):
+          with open(self.filepath, 'w') as f:
+              f.write('')
+      try:
+          with open(self.filepath, 'a') as f:
+              f.write(self.__dump_sorted_json_data__())
+      except json.decoder.JSONDecodeError:
+          with open(self.filepath, 'a') as f:
+              f.write('')
 
   # private
 
