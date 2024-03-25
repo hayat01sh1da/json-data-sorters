@@ -4,7 +4,7 @@ require_relative '../src/application'
 
 class ::JsonDataSorter::ApplicationTest < Minitest::Test
   def setup
-    @dirname  = File.join('test', 'tmp')
+    @dirname  = File.join('.', 'test', 'tmp')
     @filename = 'users.json'
     @filepath = File.join(dirname, filename)
     FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)

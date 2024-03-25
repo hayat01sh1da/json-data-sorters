@@ -9,7 +9,7 @@ from application import Application
 
 class TestApplication(unittest.TestCase):
     def setUp(self):
-        self.dirname  = os.path.join('test', 'tmp')
+        self.dirname  = os.path.join('.', 'test', 'tmp')
         self.filename = 'users.json'
         self.filepath = os.path.join(self.dirname, self.filename)
         if not os.path.isdir(self.dirname):
