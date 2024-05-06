@@ -42,8 +42,7 @@ class TestApplication(unittest.TestCase):
             Application(self.dirname, self.filename, order = 1).run()
 
     def tearDown(self):
-        if self.__has_json_file__():
-            shutil.rmtree(self.dirname)
+        shutil.rmtree(self.dirname)
 
     # private
 
@@ -230,9 +229,6 @@ class TestApplication(unittest.TestCase):
                 'age': 35
             }
         }
-
-    def __has_json_file__(self):
-        return len(glob.glob(os.path.join(self.dirname, '*.json'))) >= 1
 
 if __name__ == '__main__':
     unittest.main()

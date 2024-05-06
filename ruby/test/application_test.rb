@@ -47,7 +47,7 @@ class ::JsonDataSorter::ApplicationTest < Minitest::Test
   end
 
   def teardown
-    FileUtils.rm_rf(dirname) if Dir[File.join(dirname, '*.json')].any?
+    FileUtils.rm_rf(dirname)
   end
 
   private
