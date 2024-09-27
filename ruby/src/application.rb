@@ -1,4 +1,5 @@
 require 'json'
+require 'fileutils'
 
 module JsonDataSorter
   class Application
