@@ -4,7 +4,10 @@ require 'fileutils'
 module JsonDataSorter
   class Application
     def self.run(dirname:, filename:, order: :asc)
-      self.new(dirname, validate!(filename), validate!(order)).run
+      instance = new(dirname, filename, order)
+      instance.validate!(filename)
+      instance.validate!(order)
+      instance.run
     end
 
     def initialize(dirname, filename, order)
@@ -12,6 +15,27 @@ module JsonDataSorter
       @filename = filename
       @filepath = File.join(dirname, filename)
       @order    = order
+    end
+
+    def validate!(param)
+      case param
+      when Symbol
+        param = param.to_sym
+        case param
+        when :asc, :desc
+          param
+        else
+          raise 'Order option must be either :asc or :desc'
+        end
+      when String
+        if param.empty?
+          raise 'Filename must be provided'
+        else
+          param
+        end
+      else
+        raise 'Unexpected param was provided'
+      end
     end
 
     def run
@@ -23,29 +47,6 @@ module JsonDataSorter
     private
 
     attr_reader :dirname, :filename, :filepath, :order
-
-    class << self
-      def validate!(param)
-        case param
-        when Symbol
-          param = param.to_sym
-          case param
-          when :asc, :desc
-            param
-          else
-            raise 'Order option must be either :asc or :desc'
-          end
-        when String
-          if param.empty?
-            raise 'Filename must be provided'
-          else
-            param
-          end
-        else
-          raise 'Unexpected param was provided'
-        end
-      end
-    end
 
     def json_data
       File.open(filepath) { |f| JSON.load(f) }
