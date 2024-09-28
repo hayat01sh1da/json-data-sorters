@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'json'
 require_relative '../src/application'
 
-class ::JsonDataSorter::ApplicationTest < Minitest::Test
+class ApplicationTest < Minitest::Test
   def setup
     @dirname  = File.join('.', 'test', 'tmp')
     @filename = 'users.json'
@@ -14,12 +14,12 @@ class ::JsonDataSorter::ApplicationTest < Minitest::Test
   ########## Regular Cases ##########
 
   def test_sort_json_data_by_asc
-    ::JsonDataSorter::Application.run(dirname:, filename:)
+    Application.run(dirname:, filename:)
     assert_equal(actual_json, sorted_user_data_by_asc)
   end
 
   def test_sort_json_data_by_desc
-    ::JsonDataSorter::Application.run(dirname:, filename:, order: :desc)
+    Application.run(dirname:, filename:, order: :desc)
     assert_equal(actual_json, sorted_user_data_by_desc)
   end
 
@@ -27,21 +27,21 @@ class ::JsonDataSorter::ApplicationTest < Minitest::Test
 
   def test_sort_json_data_with_no_filename
     error = assert_raises RuntimeError do
-      ::JsonDataSorter::Application.run(dirname:, filename: '')
+      Application.run(dirname:, filename: '')
     end
     assert_equal(error.message, 'Filename must be provided')
   end
 
   def test_sort_json_data_with_invalid_order_type
     error = assert_raises RuntimeError do
-      ::JsonDataSorter::Application.run(dirname:, filename:, order: :hoge)
+      Application.run(dirname:, filename:, order: :hoge)
     end
     assert_equal(error.message, 'Order option must be either :asc or :desc')
   end
 
   def test_sort_json_data_with_invalid_data_type_of_order
     error = assert_raises RuntimeError do
-      ::JsonDataSorter::Application.run(dirname:, filename:, order: 1)
+      Application.run(dirname:, filename:, order: 1)
     end
     assert_equal(error.message, 'Unexpected param was provided')
   end

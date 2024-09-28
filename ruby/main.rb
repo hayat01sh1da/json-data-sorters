@@ -12,5 +12,5 @@ order = gets.chomp
 filepath = File.join(dirname, filename)
 
 puts "Start exporting JSON data in #{filepath}"
-application  = ::JsonDataSorter::Application.run(dirname:, filename:, order:)
+application  = Application.run(dirname:, filename:, order:)
 puts "Done export JSON data in #{filepath} 🎉"
