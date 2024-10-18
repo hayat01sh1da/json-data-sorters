@@ -11,6 +11,10 @@ class ApplicationTest < Minitest::Test
     IO.write(filepath, json_data)
   end
 
+  def teardown
+    FileUtils.rm_rf(dirname)
+  end
+
   ########## Regular Cases ##########
 
   def test_sort_json_data_by_asc
@@ -44,10 +48,6 @@ class ApplicationTest < Minitest::Test
       Application.run(dirname:, filename:, order: 1)
     end
     assert_equal(error.message, 'Unexpected param was provided')
-  end
-
-  def teardown
-    FileUtils.rm_rf(dirname)
   end
 
   private
