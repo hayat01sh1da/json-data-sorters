@@ -16,6 +16,7 @@ class TestApplication(unittest.TestCase):
             os.makedirs(self.dirname)
         with open(self.filepath, 'w') as f:
             f.write(self.__json_data__())
+        self.pycaches = glob.glob(os.path.join('.', '**', '__pycache__'))
 
     ########## Regular Cases ##########
 
@@ -42,7 +43,11 @@ class TestApplication(unittest.TestCase):
             Application(self.dirname, self.filename, order = 1).run()
 
     def tearDown(self):
-        shutil.rmtree(self.dirname)
+        if os.path.isdir(self.dirname):
+            shutil.rmtree(self.dirname)
+        for pycache in self.pycaches:
+            if os.path.isdir(pycache):
+                shutil.rmtree(pycache)
 
     # private
 
