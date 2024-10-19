@@ -12,17 +12,17 @@ class TestApplication(unittest.TestCase):
         self.dirname  = os.path.join('.', 'test', 'tmp')
         self.filename = 'users.json'
         self.filepath = os.path.join(self.dirname, self.filename)
-        if not os.path.isdir(self.dirname):
+        if not os.path.exists(self.dirname):
             os.makedirs(self.dirname)
         with open(self.filepath, 'w') as f:
             f.write(self.__json_data__())
         self.pycaches = glob.glob(os.path.join('.', '**', '__pycache__'), recursive = True)
 
     def tearDown(self):
-        if os.path.isdir(self.dirname):
+        if os.path.exists(self.dirname):
             shutil.rmtree(self.dirname)
         for pycache in self.pycaches:
-            if os.path.isdir(pycache):
+            if os.path.exists(pycache):
                 shutil.rmtree(pycache)
 
     ########## Regular Cases ##########
