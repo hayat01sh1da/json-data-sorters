@@ -16,7 +16,7 @@ class TestApplication(unittest.TestCase):
             os.makedirs(self.dirname)
         with open(self.filepath, 'w') as f:
             f.write(self.__json_data__())
-        self.pycaches = glob.glob(os.path.join('.', '**', '__pycache__'))
+        self.pycaches = glob.glob(os.path.join('.', '**', '__pycache__'), recursive = True)
 
     def tearDown(self):
         if os.path.isdir(self.dirname):
