@@ -1,6 +1,8 @@
 import sys
-sys.path.append('./src')
 import os
+import shutil
+import glob
+sys.path.append('./src')
 from application import Application
 
 dirname  = input('Provide the directory name you put the JSON file in: ')
@@ -12,3 +14,8 @@ filepath = os.path.join(dirname, filename)
 print('Start exporting JSON data in {filepath}'.format(filepath = filepath))
 Application(dirname, filename, order).run()
 print('Done exporting JSON data in {filepath} 🎉'.format(filepath = filepath))
+
+pycaches = glob.glob(os.path.join('.', '**', '__pycache__'), recursive = True)
+for pycache in pycaches:
+    if os.path.isdir(pycache):
+        shutil.rmtree(pycache)
