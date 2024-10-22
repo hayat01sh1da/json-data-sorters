@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'json'
+require 'active_support/core_ext/hash/keys'
 require_relative '../src/application'
 
 class ApplicationTest < Minitest::Test
