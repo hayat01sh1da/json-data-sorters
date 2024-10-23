@@ -5,7 +5,7 @@
 ## 2. Execution
 
 ```command
-$ cd ./python/
+$ cd ./python
 $ python main.py
 Provide the directory name you put the JSON file in: ../json
 Provide the filename of which JSON data name you would like to sort: settings.json

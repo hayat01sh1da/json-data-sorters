@@ -6,7 +6,7 @@
 ## 2. Execution
 
 ```command
-$ cd ./ruby/
+$ cd ./ruby
 $ ruby main.rb 
 Provide the directory name you put the JSON file in
 ../json
