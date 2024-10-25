@@ -5,11 +5,11 @@ class Application:
   def __init__(self, dirname, filename, order = 'asc'):
       self.dirname = dirname
       if len(filename) == 0:
-          raise ValueError('Filename must be provided')
+          raise ValueError('Filename must be provided.')
       self.filename = filename
       self.filepath = os.path.join(dirname, filename)
       if not (order == 'asc' or order == 'desc'):
-          raise ValueError('Order option must be either asc or desc')
+          raise ValueError('Order option must be either asc or desc.')
       if not str(type(order)) == "<class 'str'>":
           raise ValueError('Unexpected param was provided')
       self.order = order

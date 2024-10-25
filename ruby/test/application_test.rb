@@ -34,7 +34,7 @@ class ApplicationTest < Minitest::Test
     error = assert_raises RuntimeError do
       Application.run(dirname:, filename: '')
     end
-    assert_equal(error.message, 'Filename must be provided')
+    assert_equal(error.message, 'Filename must be provided.')
   end
 
   def test_sort_json_data_with_invalid_order_type

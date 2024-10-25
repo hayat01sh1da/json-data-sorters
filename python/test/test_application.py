@@ -38,11 +38,11 @@ class TestApplication(unittest.TestCase):
     ########## Irregular Cases ##########
 
     def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'Filename must be provided'):
+        with self.assertRaises(ValueError, msg = 'Filename must be provided.'):
             Application(self.dirname, '').run()
 
     def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'Order option must be either asc or desc'):
+        with self.assertRaises(ValueError, msg = 'Order option must be either asc or desc.'):
             Application(self.dirname, self.filename, order = 'hoge').run()
 
     def test_sort_json_data_with_invalid_order_type(self):

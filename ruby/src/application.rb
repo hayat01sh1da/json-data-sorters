@@ -28,7 +28,7 @@ class Application
       end
     when String
       if param.empty?
-        raise 'Filename must be provided'
+        raise 'Filename must be provided.'
       else
         param
       end
