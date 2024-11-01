@@ -30,6 +30,5 @@ jobs:
       - name: Install Gem
         run: gem install activesupport
       - name: Run MiniTest
-        run: |
-          cd ./ruby
-          ruby test/application_test.rb
+        working-directory: ./ruby
+        run: ruby test/application_test.rb
