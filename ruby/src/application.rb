@@ -13,7 +13,7 @@ class Application
     @dirname  = dirname
     @filename = filename
     @filepath = File.join(dirname, filename)
-    @order    = order
+    @order    = order.to_s.to_sym
   end
 
   def validate!(param)
