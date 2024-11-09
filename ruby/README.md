@@ -1,7 +1,6 @@
 ## 1. Environment
 
-- Ruby 3.3.5
-- ActiveSupport: 7.2.1.1
+- Ruby 3.3.6
 
 ## 2. Execution
 
