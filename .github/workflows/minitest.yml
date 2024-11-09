@@ -12,14 +12,18 @@ on:
     branches:
       - master
     paths:
-      - ./ruby
-      - '!./ruby/README.md'
+      - '.github/workflows/minitest.yml'
+      - 'ruby/Gemfile'
+      - 'ruby/Gemfile.lock'
+      - '**.rb'
   pull_request:
     branches:
       - master
     paths:
-      - ./ruby
-      - '!./ruby/README.md'
+      - '.github/workflows/minitest.yml'
+      - 'ruby/Gemfile'
+      - 'ruby/Gemfile.lock'
+      - '**.rb'
 
 permissions:
   contents: read
