@@ -9,16 +9,12 @@ name: MiniTest
 
 on:
   push:
-    branches:
-      - master
     paths:
       - '.github/workflows/minitest.yml'
       - 'ruby/Gemfile'
       - 'ruby/Gemfile.lock'
       - '**.rb'
   pull_request:
-    branches:
-      - master
     paths:
       - '.github/workflows/minitest.yml'
       - 'ruby/Gemfile'
