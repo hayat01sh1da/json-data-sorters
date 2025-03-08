@@ -13,13 +13,13 @@ on:
       - '.github/workflows/minitest.yml'
       - 'ruby/Gemfile'
       - 'ruby/Gemfile.lock'
-      - '**.rb'
+      - 'ruby/**/*.rb'
   pull_request:
     paths:
       - '.github/workflows/minitest.yml'
       - 'ruby/Gemfile'
       - 'ruby/Gemfile.lock'
-      - '**.rb'
+      - 'ruby/**/*.rb'
 
 permissions:
   contents: read
