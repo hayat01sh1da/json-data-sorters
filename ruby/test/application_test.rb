@@ -9,7 +9,7 @@ class ApplicationTest < Minitest::Test
     @filename = 'users.json'
     @filepath = File.join(dirname, filename)
     FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)
-    IO.write(filepath, json_data)
+    File.write(filepath, json_data)
   end
 
   def teardown
