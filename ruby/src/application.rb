@@ -40,7 +40,7 @@ class Application
   def run
     FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
     FileUtils.touch(filepath) unless File.exist?(filepath)
-    IO.write(filepath, dump_sorted_json_data)
+    File.write(filepath, dump_sorted_json_data)
   end
 
   private
