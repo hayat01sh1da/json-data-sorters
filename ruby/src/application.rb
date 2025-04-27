@@ -4,8 +4,8 @@ require 'fileutils'
 class Application
   def self.run(dirname:, filename:, order: :asc)
     instance = new(dirname, filename, order)
-    instance.validate!(filename)
-    instance.validate!(order)
+    instance.validate_filename!
+    instance.validate_order!
     instance.run
   end
 
@@ -13,27 +13,23 @@ class Application
     @dirname  = dirname
     @filename = filename
     @filepath = File.join(dirname, filename)
-    @order    = order.to_s.to_sym
+    @order    = order
   end
 
-  def validate!(param)
-    case param
-    when Symbol
-      param = param.to_sym
-      case param
-      when :asc, :desc
-        param
-      else
-        raise 'Order option must be either :asc or :desc'
-      end
-    when String
-      if param.empty?
-        raise 'Filename must be provided.'
-      else
-        param
-      end
+  def validate_filename!
+    if filename.empty?
+      raise 'Filename must be provided.'
     else
-      raise 'Unexpected param was provided'
+      filename
+    end
+  end
+
+  def validate_order!
+    case order
+    when :asc, :desc
+      order
+    else
+      raise 'Order option must be either :asc or :desc'
     end
   end
 

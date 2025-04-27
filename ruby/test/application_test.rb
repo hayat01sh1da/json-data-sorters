@@ -19,7 +19,7 @@ class ApplicationTest < Minitest::Test
   ########## Regular Cases ##########
 
   def test_sort_json_data_by_asc
-    Application.run(dirname:, filename:)
+    Application.run(dirname:, filename:, order: :asc)
     assert_equal(actual_json, sorted_user_data_by_asc)
   end
 
@@ -48,7 +48,7 @@ class ApplicationTest < Minitest::Test
     error = assert_raises RuntimeError do
       Application.run(dirname:, filename:, order: 1)
     end
-    assert_equal(error.message, 'Unexpected param was provided')
+    assert_equal(error.message, 'Order option must be either :asc or :desc')
   end
 
   private

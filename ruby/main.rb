@@ -12,5 +12,5 @@ order = gets.chomp
 filepath = File.join(dirname, filename)
 
 puts "Start exporting JSON data in #{filepath}"
-application  = Application.run(dirname:, filename:, order:)
+order.empty? ? Application.run(dirname:, filename:) : Application.run(dirname:, filename:, order:)
 puts "Done export JSON data in #{filepath} 🎉"
