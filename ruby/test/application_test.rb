@@ -20,12 +20,12 @@ class ApplicationTest < Minitest::Test
 
   def test_sort_json_data_by_asc
     Application.run(dirname:, filename:, order: :asc)
-    assert_equal(actual_json, sorted_user_data_by_asc)
+    assert_equal(sorted_user_data_by_asc, actual_json)
   end
 
   def test_sort_json_data_by_desc
     Application.run(dirname:, filename:, order: :desc)
-    assert_equal(actual_json, sorted_user_data_by_desc)
+    assert_equal(sorted_user_data_by_desc, actual_json)
   end
 
   ########## Irregular Cases ##########
@@ -34,21 +34,21 @@ class ApplicationTest < Minitest::Test
     error = assert_raises RuntimeError do
       Application.run(dirname:, filename: '')
     end
-    assert_equal(error.message, 'Filename must be provided.')
+    assert_equal('Filename must be provided.', error.message)
   end
 
   def test_sort_json_data_with_invalid_order_type
     error = assert_raises RuntimeError do
       Application.run(dirname:, filename:, order: :hoge)
     end
-    assert_equal(error.message, 'Order option must be either :asc or :desc')
+    assert_equal('Order option must be either :asc or :desc', error.message)
   end
 
   def test_sort_json_data_with_invalid_data_type_of_order
     error = assert_raises RuntimeError do
       Application.run(dirname:, filename:, order: 1)
     end
-    assert_equal(error.message, 'Order option must be either :asc or :desc')
+    assert_equal('Order option must be either :asc or :desc', error.message)
   end
 
   private
