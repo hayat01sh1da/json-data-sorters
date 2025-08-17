@@ -13,14 +13,14 @@ on:
       - master
     paths:
       - '.github/workflows/minitest.yml'
-      - './ruby-version'
+      - '.ruby-version'
       - 'ruby/Gemfile'
       - 'ruby/Gemfile.lock'
       - 'ruby/**/*.rb'
   pull_request:
     paths:
       - '.github/workflows/minitest.yml'
-      - './ruby-version'
+      - '.ruby-version'
       - 'ruby/Gemfile'
       - 'ruby/Gemfile.lock'
       - 'ruby/**/*.rb'
