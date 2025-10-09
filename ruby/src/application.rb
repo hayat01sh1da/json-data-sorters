@@ -3,6 +3,7 @@ require 'fileutils'
 
 class Application
   def self.run(dirname:, filename:, order: :asc)
+    order    = order.respond_to?(:to_sym) ? order.to_sym : order
     instance = new(dirname, filename, order)
     instance.validate_filename!
     instance.validate_order!
