@@ -14,15 +14,11 @@ on:
     paths:
       - '.github/workflows/minitest.yml'
       - '.ruby-version'
-      - 'ruby/Gemfile'
-      - 'ruby/Gemfile.lock'
       - 'ruby/**/*.rb'
   pull_request:
     paths:
       - '.github/workflows/minitest.yml'
       - '.ruby-version'
-      - 'ruby/Gemfile'
-      - 'ruby/Gemfile.lock'
       - 'ruby/**/*.rb'
 
 permissions:
@@ -38,8 +34,6 @@ jobs:
       # change this to (see https://github.com/ruby/setup-ruby#versioning):
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-      - name: Install Gem
-        run: gem install activesupport
       - name: Run Minitest
         working-directory: ./ruby
         run: ruby test/application_test.rb
