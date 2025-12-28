@@ -1,9 +1,11 @@
 require 'minitest/autorun'
 require 'json'
-require 'active_support/core_ext/hash/keys'
 require_relative '../src/application'
+require_relative './helper/symbolize_helper'
 
 class ApplicationTest < Minitest::Test
+  using SymbolizeHelper
+
   def setup
     @dirname  = File.join('.', 'test', 'tmp')
     @filename = 'users.json'
