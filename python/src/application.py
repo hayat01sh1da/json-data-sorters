@@ -1,17 +1,24 @@
 import os
 import json
+import inspect
+
+class InvalidFilenameError(Exception):
+    pass
+
+class InvalidOrderError(Exception):
+    pass
 
 class Application:
     def __init__(self, dirname, filename, order = 'asc'):
         self.dirname = dirname
         if len(filename) == 0:
-            raise ValueError('Filename must be provided.')
+            raise InvalidFilenameError('Filename must be provided.')
         self.filename = filename
         self.filepath = os.path.join(dirname, filename)
         if not str(type(order)) == "<class 'str'>":
-            raise ValueError('Unexpected param was provided')
+            raise InvalidOrderError('Unexpected param was provided')
         if not (order == 'asc' or order == 'desc'):
-            raise ValueError('Order option must be either asc or desc.')
+            raise InvalidOrderError('Order option must be either asc or desc.')
         self.order = order
         self.env   = inspect.stack()[1].filename.split('/')[-2]
 
