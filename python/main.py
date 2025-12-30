@@ -12,7 +12,10 @@ order    = input('Provide asc(default) or desc you would like to sort key-value 
 filepath = os.path.join(dirname, filename)
 
 print('Start exporting JSON data in {filepath}'.format(filepath = filepath))
-Application(dirname, filename).run() if order == '' else Application(dirname, filename, order).run()
+if order == '':
+    Application(dirname = dirname, filename = filename).run()
+else:
+    Application(dirname = dirname, filename = filename, order = order).run()
 print('Done exporting JSON data in {filepath} 🎉'.format(filepath = filepath))
 
 pycaches = glob.glob(os.path.join('.', '**', '__pycache__'), recursive = True)

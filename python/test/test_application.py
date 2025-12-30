@@ -28,11 +28,11 @@ class TestApplication(unittest.TestCase):
     ########## Regular Cases ##########
 
     def test_sort_json_data_by_asc(self):
-        Application(self.dirname, self.filename).run()
+        Application(dirname = self.dirname, filename = self.filename).run()
         self.assertEqual(self.__actual_json__(), self.__sorted_user_data_by_asc__())
 
     def test_sort_json_data_by_desc(self):
-        Application(self.dirname, self.filename, order = 'desc').run()
+        Application(dirname = self.dirname, filename = self.filename, order = 'desc').run()
         self.assertEqual(self.__actual_json__(), self.__sorted_user_data_by_desc__())
 
     ########## Irregular Cases ##########
