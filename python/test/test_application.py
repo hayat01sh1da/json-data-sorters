@@ -37,17 +37,20 @@ class TestApplication(unittest.TestCase):
 
     ########## Irregular Cases ##########
 
-    def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'Filename must be provided.'):
-            Application(self.dirname, '').run()
+    def test_sort_json_data_with_missing_filename(self):
+        with self.assertRaises(ValueError) as cm:
+            Application(dirname = self.dirname, filename = '').run()
+        self.assertEqual('Filename must be provided.', str(cm.exception))
 
-    def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'Order option must be either asc or desc.'):
-            Application(self.dirname, self.filename, order = 'hoge').run()
+    def test_sort_json_data_with_invalid_order(self):
+        with self.assertRaises(ValueError) as cm:
+            Application(dirname = self.dirname, filename = self.filename, order = 'hoge').run()
+        self.assertEqual('Order option must be either asc or desc.', str(cm.exception))
 
-    def test_sort_json_data_with_invalid_order_type(self):
-        with self.assertRaises(ValueError, msg = 'Unexpected param was provided'):
-            Application(self.dirname, self.filename, order = 1).run()
+    def test_sort_json_data_with_non_string_order(self):
+        with self.assertRaises(ValueError) as cm:
+            Application(dirname = self.dirname, filename = self.filename, order = 1).run()
+        self.assertEqual('Unexpected param was provided', str(cm.exception))
 
     # private
 
