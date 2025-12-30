@@ -1,22 +1,30 @@
 import os
 import json
+import inspect
+
+class InvalidFilenameError(Exception):
+    pass
+
+class InvalidOrderError(Exception):
+    pass
 
 class Application:
     def __init__(self, dirname, filename, order = 'asc'):
         self.dirname = dirname
         if len(filename) == 0:
-            raise ValueError('Filename must be provided.')
+            raise InvalidFilenameError('Filename must be provided.')
         self.filename = filename
         self.filepath = os.path.join(dirname, filename)
-        if not (order == 'asc' or order == 'desc'):
-            raise ValueError('Order option must be either asc or desc.')
         if not str(type(order)) == "<class 'str'>":
-            raise ValueError('Unexpected param was provided')
+            raise InvalidOrderError('Unexpected param was provided')
+        if not (order == 'asc' or order == 'desc'):
+            raise InvalidOrderError('Order option must be either asc or desc.')
         self.order = order
+        self.env   = inspect.stack()[1].filename.split('/')[-2]
 
     def run(self):
-        if not os.path.exists(self.dirname):
-            os.makedirs(self.dirname)
+        self.__output__('Start exporting JSON data in {filepath}'.format(filepath = self.filepath))
+        os.makedirs(self.dirname, exist_ok = True)
         if not os.path.isfile(self.filepath):
             with open(self.filepath, 'w') as f:
                 f.write('')
@@ -26,6 +34,7 @@ class Application:
         except json.decoder.JSONDecodeError:
             with open(self.filepath, 'a') as f:
                 f.write('')
+        self.__output__('Done exporting JSON data in {filepath} 🎉'.format(filepath = self.filepath))
 
     # private
 
@@ -49,3 +58,23 @@ class Application:
             else:
                 dictionary[key] = value
         return json.dumps(dictionary, ensure_ascii = False, indent = 2)
+
+    def __is_test_env__(self):
+        """Check if running in a test environment.
+        
+        Returns:
+            bool: True if in test environment, False otherwise.
+        """
+        return self.env == 'test'
+
+    def __output__(self, message):
+        """Output a message if not running in the test environment.
+
+        Args:
+            message: The message to output.
+
+        Returns:
+            None
+        """
+        if not self.__is_test_env__():
+            print(message)
