@@ -12,8 +12,7 @@ class TestApplication(unittest.TestCase):
         self.dirname  = os.path.join('.', 'test', 'tmp')
         self.filename = 'users.json'
         self.filepath = os.path.join(self.dirname, self.filename)
-        if not os.path.exists(self.dirname):
-            os.makedirs(self.dirname)
+        os.makedirs(self.dirname, exist_ok = True)
         with open(self.filepath, 'w') as f:
             f.write(self.__json_data__())
         self.pycaches = glob.glob(os.path.join('.', '**', '__pycache__'), recursive = True)

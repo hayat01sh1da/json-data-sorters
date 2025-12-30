@@ -15,8 +15,7 @@ class Application:
         self.order = order
 
     def run(self):
-        if not os.path.exists(self.dirname):
-            os.makedirs(self.dirname)
+        os.makedirs(self.dirname, exist_ok = True)
         if not os.path.isfile(self.filepath):
             with open(self.filepath, 'w') as f:
                 f.write('')
