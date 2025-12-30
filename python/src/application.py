@@ -13,8 +13,10 @@ class Application:
         if not (order == 'asc' or order == 'desc'):
             raise ValueError('Order option must be either asc or desc.')
         self.order = order
+        self.env   = inspect.stack()[1].filename.split('/')[-2]
 
     def run(self):
+        self.__output__('Start exporting JSON data in {filepath}'.format(filepath = self.filepath))
         os.makedirs(self.dirname, exist_ok = True)
         if not os.path.isfile(self.filepath):
             with open(self.filepath, 'w') as f:
@@ -25,6 +27,7 @@ class Application:
         except json.decoder.JSONDecodeError:
             with open(self.filepath, 'a') as f:
                 f.write('')
+        self.__output__('Done exporting JSON data in {filepath} 🎉'.format(filepath = self.filepath))
 
     # private
 
@@ -48,3 +51,23 @@ class Application:
             else:
                 dictionary[key] = value
         return json.dumps(dictionary, ensure_ascii = False, indent = 2)
+
+    def __is_test_env__(self):
+        """Check if running in a test environment.
+        
+        Returns:
+            bool: True if in test environment, False otherwise.
+        """
+        return self.env == 'test'
+
+    def __output__(self, message):
+        """Output a message if not running in the test environment.
+
+        Args:
+            message: The message to output.
+
+        Returns:
+            None
+        """
+        if not self.__is_test_env__():
+            print(message)

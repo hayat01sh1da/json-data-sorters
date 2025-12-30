@@ -35,9 +35,11 @@ class Application
   end
 
   def run
+    output "Start exporting JSON data in #{filepath}"
     FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
     FileUtils.touch(filepath) unless File.exist?(filepath)
     File.write(filepath, dump_sorted_json_data)
+    output "Done export JSON data in #{filepath} 🎉"
   end
 
   private
@@ -67,5 +69,15 @@ class Application
     }.then { |sorted_hash|
       JSON.pretty_generate(sorted_hash)
     }
+  end
+
+  # @return [Boolean]
+  def test_env?
+    caller[-1].split('/').last.match?(/minitest\.rb/)
+  end
+
+  # @return [void]
+  def output(message)
+    puts message unless test_env?
   end
 end
