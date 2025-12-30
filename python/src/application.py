@@ -8,10 +8,10 @@ class Application:
             raise ValueError('Filename must be provided.')
         self.filename = filename
         self.filepath = os.path.join(dirname, filename)
-        if not (order == 'asc' or order == 'desc'):
-            raise ValueError('Order option must be either asc or desc.')
         if not str(type(order)) == "<class 'str'>":
             raise ValueError('Unexpected param was provided')
+        if not (order == 'asc' or order == 'desc'):
+            raise ValueError('Order option must be either asc or desc.')
         self.order = order
 
     def run(self):
