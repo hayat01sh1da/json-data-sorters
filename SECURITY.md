@@ -2,20 +2,32 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+- Only the latest version on `master` receives fixes.
+- Sample JSON datasets are considered fixtures; security fixes target the
+	sorting utilities themselves.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Ecosystem & Compatibility
+
+| Component            | Version(s) / Tooling            | Notes |
+| -------------------- | ------------------------------ | ----- |
+| OS baseline          | WSL (Ubuntu 24.04.3 LTS)       | Shared across Ruby and Python implementations. |
+| Ruby sorter          | Ruby 4.0.1 (`.ruby-version`)   | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced. |
+| Python sorter        | CPython 3.14.2 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
+
+## Backward Compatibility
+
+- Sorting behavior and CLI options remain stable for Ruby 4.0.x / Python 3.14.x
+	environments. Any key-order changes will be communicated via release notes.
+- Earlier interpreter majors or alternative JSON engines are not supported and
+	will not receive security fixes.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Please disclose vulnerabilities privately:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. Use GitHub’s **Security → Report a vulnerability** flow (preferred).
+2. Alternatively, email `security@project.org` with sample payloads, sort order
+	 (`asc`/`desc`), and reproduction steps.
+
+We acknowledge within **3 business days** and provide updates at least every
+**7 business days** until remediation or closure.
