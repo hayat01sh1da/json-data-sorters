@@ -23,6 +23,6 @@
 Please disclose vulnerabilities privately:
 
 1. Use GitHub’s **Security → Report a vulnerability** flow (preferred).
-2. Alternatively, email `security@project.org` with sample payloads, sort order  (`asc`/`desc`), and reproduction steps.
+2. Alternatively, email `security@project.org` with sample payloads, sort order (`asc`/`desc`), and reproduction steps.
 
 We acknowledge within **3 business days** and provide updates at least every **7 business days** until remediation or closure.
