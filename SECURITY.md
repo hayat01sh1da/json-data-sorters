@@ -3,8 +3,7 @@
 ## Supported Versions
 
 - Only the latest version on `master` receives fixes.
-- Sample JSON datasets are considered fixtures; security fixes target the
-	sorting utilities themselves.
+- Sample JSON datasets are considered fixtures; security fixes target the sorting utilities themselves.
 
 ## Ecosystem & Compatibility
 
@@ -16,18 +15,14 @@
 
 ## Backward Compatibility
 
-- Sorting behavior and CLI options remain stable for Ruby 4.0.x / Python 3.14.x
-	environments. Any key-order changes will be communicated via release notes.
-- Earlier interpreter majors or alternative JSON engines are not supported and
-	will not receive security fixes.
+- Sorting behavior and CLI options remain stable for Ruby 4.0.x / Python 3.14.x environments. Any key-order changes will be communicated via release notes.
+- Earlier interpreter majors or alternative JSON engines are not supported and will not receive security fixes.
 
 ## Reporting a Vulnerability
 
 Please disclose vulnerabilities privately:
 
 1. Use GitHub’s **Security → Report a vulnerability** flow (preferred).
-2. Alternatively, email `security@project.org` with sample payloads, sort order
-	 (`asc`/`desc`), and reproduction steps.
+2. Alternatively, email `security@project.org` with sample payloads, sort order  (`asc`/`desc`), and reproduction steps.
 
-We acknowledge within **3 business days** and provide updates at least every
-**7 business days** until remediation or closure.
+We acknowledge within **3 business days** and provide updates at least every **7 business days** until remediation or closure.
