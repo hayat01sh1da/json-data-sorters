@@ -11,7 +11,7 @@
 | -------------------- | ------------------------------ | ----- |
 | OS baseline          | WSL (Ubuntu 24.04.3 LTS)       | Shared across Ruby and Python implementations. |
 | Ruby sorter          | Ruby 4.0.1 (`.ruby-version`)   | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced. |
-| Python sorter        | CPython 3.14.2 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
+| Python sorter        | CPython 3.14.3 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
 
 ## Backward Compatibility
 
