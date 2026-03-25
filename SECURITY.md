@@ -5,11 +5,11 @@
 
 ## Ecosystem & Compatibility
 
-| Component            | Version(s) / Tooling            | Notes |
-| -------------------- | ------------------------------ | ----- |
-| OS baseline          | WSL (Ubuntu 24.04.3 LTS)       | Shared across Ruby and Python implementations. |
-| Ruby sorter          | Ruby 4.0.2 (`.ruby-version`)   | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced. |
-| Python sorter        | CPython 3.14.3 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
+| Component     | Version(s) / Tooling               | Notes                                                                                    |
+| ------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| OS baseline   | WSL (Ubuntu 25.10)                 | Shared environment across tracks.                                                        |
+| Ruby sorter   | Ruby 4.0.2 (`.ruby-version`)       | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced.                |
+| Python sorter | CPython 3.14.3 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
 
 ## Backward Compatibility
 
