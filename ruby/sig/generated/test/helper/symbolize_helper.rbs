@@ -1,0 +1,11 @@
+# Generated from test/helper/symbolize_helper.rb with RBS::Inline
+
+module SymbolizeHelper
+  def symbolize_recursive: (untyped hash) -> untyped
+
+  private
+
+  def transform: (untyped object) -> untyped
+
+  def deep_symbolize_keys: () -> untyped
+end
