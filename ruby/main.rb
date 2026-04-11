@@ -1,3 +1,5 @@
+# rbs_inline: enabled
+
 require_relative './src/application'
 
 puts 'Provide the directory name you put the JSON file in:'

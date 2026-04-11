@@ -1,3 +1,5 @@
+# rbs_inline: enabled
+
 require 'minitest/autorun'
 require 'json'
 require_relative '../src/application'

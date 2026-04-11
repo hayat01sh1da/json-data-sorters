@@ -1,3 +1,5 @@
+# rbs_inline: enabled
+
 require 'json'
 require 'fileutils'
 
@@ -5,6 +7,10 @@ class Application
   class InvalidFilenameError < StandardError; end
   class InvalidOrderError < StandardError; end
 
+  # @rbs dirname: String
+  # @rbs filename: String
+  # @rbs order: Symbol
+  # @rbs return: void
   def self.run(dirname:, filename:, order: :asc)
     order    = order.respond_to?(:to_sym) ? order.to_sym : order
     instance = new(dirname, filename, order)
@@ -13,6 +19,10 @@ class Application
     instance.run
   end
 
+  # @rbs dirname: String
+  # @rbs filename: String
+  # @rbs order: Symbol
+  # @rbs return: void
   def initialize(dirname, filename, order)
     @dirname  = dirname
     @filename = filename
@@ -20,7 +30,7 @@ class Application
     @order    = order
   end
 
-  # @return [String] or raise[InvalidFilenameError]
+  # @rbs return: String
   def validate_filename!
     if filename.empty?
       raise InvalidFilenameError, 'Filename must be provided.'
@@ -29,7 +39,7 @@ class Application
     end
   end
 
-  # @return [Symbol] or raise[InvalidOrderError]
+  # @rbs return: Symbol
   def validate_order!
     case order
     when :asc, :desc
@@ -39,6 +49,7 @@ class Application
     end
   end
 
+  # @rbs return: void
   def run
     output "Start exporting JSON data in #{filepath}"
     FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
@@ -51,18 +62,18 @@ class Application
 
   attr_reader :dirname, :filename, :filepath, :order
 
-  # @return [Hash] or [nil]
+  # @rbs return: Hash[String, untyped]?
   def json_data
     File.open(filepath) { |f| JSON.load(f) }
   end
 
-  # @return [Hash] or [nil]
+  # @rbs return: Hash[String, untyped]?
   def sorted_json_data
     return unless json_data
     order == :asc ? json_data.sort.to_h : json_data.sort.reverse.to_h
   end
 
-  # @return [String] or [nil]
+  # @rbs return: String?
   def dump_sorted_json_data
     return unless sorted_json_data
     sorted_json_data.each_with_object({}) { |(key, value), hash|
@@ -79,12 +90,13 @@ class Application
     }
   end
 
-  # @return [Boolean]
+  # @rbs return: bool
   def test_env?
     caller[-1].split('/').last.match?(/minitest\.rb/)
   end
 
-  # @return [void]
+  # @rbs message: String
+  # @rbs return: void
   def output(message)
     puts message unless test_env?
   end
