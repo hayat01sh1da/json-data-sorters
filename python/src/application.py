@@ -1,6 +1,7 @@
 import os
 import json
 import inspect
+from typing import Any
 
 class InvalidFilenameError(Exception):
     pass
@@ -9,7 +10,7 @@ class InvalidOrderError(Exception):
     pass
 
 class Application:
-    def __init__(self, dirname, filename, order = 'asc'):
+    def __init__(self, dirname: str, filename: str, order: str = 'asc') -> None:
         self.dirname = dirname
         if len(filename) == 0:
             raise InvalidFilenameError('Filename must be provided.')
@@ -22,7 +23,7 @@ class Application:
         self.order = order
         self.env   = inspect.stack()[1].filename.split('/')[-2]
 
-    def run(self):
+    def run(self) -> None:
         self.__output__('Start exporting JSON data in {filepath}'.format(filepath = self.filepath))
         os.makedirs(self.dirname, exist_ok = True)
         if not os.path.isfile(self.filepath):
@@ -38,17 +39,17 @@ class Application:
 
     # private
 
-    def __json_data__(self):
+    def __json_data__(self) -> dict[str, Any]:
         json_data = None
         with open(self.filepath, 'r+') as f:
             json_data = json.load(f)
             f.truncate(0)
         return json_data
 
-    def __sorted_json_data__(self):
+    def __sorted_json_data__(self) -> dict[str, Any]:
         return dict(sorted(self.__json_data__().items())) if self.order == 'asc' else dict(sorted(self.__json_data__().items(), reverse = True))
 
-    def __dump_sorted_json_data__(self):
+    def __dump_sorted_json_data__(self) -> str:
         dictionary = {}
         for key, value in self.__sorted_json_data__().items():
             if isinstance(value, dict):
@@ -59,7 +60,7 @@ class Application:
                 dictionary[key] = value
         return json.dumps(dictionary, ensure_ascii = False, indent = 2)
 
-    def __is_test_env__(self):
+    def __is_test_env__(self) -> bool:
         """Check if running in a test environment.
         
         Returns:
@@ -67,7 +68,7 @@ class Application:
         """
         return self.env == 'test'
 
-    def __output__(self, message):
+    def __output__(self, message: str) -> None:
         """Output a message if not running in the test environment.
 
         Args:
