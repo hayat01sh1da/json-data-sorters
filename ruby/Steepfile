@@ -10,6 +10,7 @@ target :app do
 
   library 'fileutils'
   library 'json'
+  library 'minitest'
 
   configure_code_diagnostics(D::Ruby.default)
 end
