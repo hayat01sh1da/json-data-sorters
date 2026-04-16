@@ -11,6 +11,6 @@ filename = gets&.chomp&.strip
 puts 'Provide asc(default) or desc you would like to sort key-value in:'
 order = gets&.chomp&.strip
 
-params = { dirname:, filename:, order: }.reject { |_, value| value.empty? }
+params = { dirname:, filename:, order: }.reject { |_, value| value&.empty? }
 
 Application.run(**params)
