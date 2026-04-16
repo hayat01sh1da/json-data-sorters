@@ -69,8 +69,7 @@ class Application
 
   # @rbs return: Hash[String, untyped]?
   def sorted_json_data
-    return unless json_data
-    order == :asc ? json_data.sort.to_h : json_data.sort.reverse.to_h
+    order == :asc ? json_data&.sort&.to_h : json_data&.sort&.reverse&.to_h
   end
 
   # @rbs return: String?
