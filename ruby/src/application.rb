@@ -76,7 +76,7 @@ class Application
   # @rbs return: String?
   def dump_sorted_json_data
     return unless sorted_json_data
-    sorted_json_data.each_with_object({}) { |(key, value), hash|
+    sorted_json_data.each_with_object(Hash.new) { |(key, value), hash|
       hash[key] = case value
       when Hash
         order == :asc ? value.sort.to_h : value.sort.reverse.to_h

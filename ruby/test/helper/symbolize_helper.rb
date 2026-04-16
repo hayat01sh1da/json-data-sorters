@@ -4,7 +4,7 @@ module SymbolizeHelper
   extend self
 
   def symbolize_recursive(hash)
-    {}.tap do |h|
+    Hash.new.tap do |h|
       hash.each { |key, value| h[key.to_sym] = transform(value) }
     end
   end
