@@ -11,9 +11,9 @@ class Application
   # @rbs filename: String
   # @rbs order: Symbol
   # @rbs return: void
-  def self.run(dirname:, filename:, order: :asc)
+  def self.run(dirname: '', filename: '', order: :asc)
     order    = order.respond_to?(:to_sym) ? order.to_sym : order
-    instance = new(dirname, filename, order)
+    instance = new(dirname:, filename:, order:)
     instance.validate_filename!
     instance.validate_order!
     instance.run
@@ -23,7 +23,7 @@ class Application
   # @rbs filename: String
   # @rbs order: Symbol
   # @rbs return: void
-  def initialize(dirname, filename, order)
+  def initialize(dirname: '', filename: '', order: :asc)
     @dirname  = dirname
     @filename = filename
     @filepath = File.join(dirname, filename)

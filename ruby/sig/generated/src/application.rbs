@@ -11,13 +11,13 @@ class Application
   # @rbs filename: String
   # @rbs order: Symbol
   # @rbs return: void
-  def self.run: (dirname: String, filename: String, ?order: Symbol) -> void
+  def self.run: (?dirname: String, ?filename: String, ?order: Symbol) -> void
 
   # @rbs dirname: String
   # @rbs filename: String
   # @rbs order: Symbol
   # @rbs return: void
-  def initialize: (String dirname, String filename, Symbol order) -> void
+  def initialize: (?dirname: String, ?filename: String, ?order: Symbol) -> void
 
   # @rbs return: String
   def validate_filename!: () -> String
