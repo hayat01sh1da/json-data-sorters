@@ -1,11 +1,14 @@
 # Generated from test/helper/symbolize_helper.rb with RBS::Inline
 
 module SymbolizeHelper
-  def symbolize_recursive: (untyped hash) -> untyped
+  # @rbs return: Hash[untyped, untyped]
+  def self.symbolize_recursive: (untyped hash) -> Hash[untyped, untyped]
 
   private
 
-  def transform: (untyped object) -> untyped
+  # @rbs return: untyped
+  def self.transform: (untyped object) -> untyped
 
-  def deep_symbolize_keys: () -> untyped
+  # @rbs return: Hash[Symbol, untyped]
+  def deep_symbolize_keys: () -> Hash[Symbol, untyped]
 end
