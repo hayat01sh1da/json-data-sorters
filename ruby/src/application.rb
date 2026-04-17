@@ -9,7 +9,7 @@ class Application
 
   # @rbs dirname: String
   # @rbs filename: String
-  # @rbs order: Symbol
+  # @rbs order: untyped
   # @rbs return: void
   def self.run(dirname: '', filename: '', order: :asc)
     order    = order.respond_to?(:to_sym) ? order.to_sym : order
@@ -21,7 +21,8 @@ class Application
 
   # @rbs dirname: String
   # @rbs filename: String
-  # @rbs order: Symbol
+  # @rbs order: untyped
+  # ⚠️ `order` expects a class which can be converted to Symbol by `to_sym` method(e.g. String, Symbol). Otherwise, it will raise an error when validating order.
   # @rbs return: void
   def initialize(dirname: '', filename: '', order: :asc)
     @dirname  = dirname
