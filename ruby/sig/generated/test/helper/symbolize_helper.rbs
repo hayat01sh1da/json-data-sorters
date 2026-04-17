@@ -3,9 +3,7 @@
 module SymbolizeHelper
   # @rbs h: Hash[untyped, untyped]
   # @rbs return: Hash[untyped, untyped]
-  def self.symbolize_recursive: (untyped hash, ?Hash[untyped, untyped] h) -> Hash[untyped, untyped]
-
-  private
+  def self.symbolize_recursive: (untyped hash, ?untyped hsh) -> Hash[untyped, untyped]
 
   # @rbs return: untyped
   def self.transform: (untyped object) -> untyped

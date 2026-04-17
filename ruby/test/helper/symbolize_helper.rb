@@ -9,10 +9,8 @@ module SymbolizeHelper
     end
   end
 
-  private
-
   # @rbs return: untyped
-  def self.transform(object)
+  private_class_method def self.transform(object)
     case object
     when Hash
       symbolize_recursive(object)
