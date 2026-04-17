@@ -74,7 +74,7 @@ class Application
   end
 
   # @rbs hash: Hash[String, untyped]
-  # @rbs return: String?
+  # @rbs return: String
   def dump_sorted_json_data(hash = {})
     sorted_json_data&.each_with_object(hash) { |(key, value), hash|
       hash[key] = case value
