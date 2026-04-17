@@ -73,9 +73,10 @@ class Application
     order == :asc ? json_data&.sort&.to_h : json_data&.sort&.reverse&.to_h
   end
 
+  # @rbs hash: Hash[String, untyped]
   # @rbs return: String?
-  def dump_sorted_json_data
-    sorted_json_data&.each_with_object(Hash.new) { |(key, value), hash|
+  def dump_sorted_json_data(hash = {})
+    sorted_json_data&.each_with_object(hash) { |(key, value), hash|
       hash[key] = case value
       when Hash
         order == :asc ? value.sort.to_h : value.sort.reverse.to_h

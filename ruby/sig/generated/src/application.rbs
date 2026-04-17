@@ -45,8 +45,9 @@ class Application
   # @rbs return: Hash[String, untyped]?
   def sorted_json_data: () -> Hash[String, untyped]?
 
+  # @rbs hash: Hash[String, untyped]
   # @rbs return: String?
-  def dump_sorted_json_data: () -> String?
+  def dump_sorted_json_data: (?Hash[String, untyped] hash) -> String?
 
   # @rbs return: bool
   def test_env?: () -> bool

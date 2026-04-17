@@ -1,8 +1,9 @@
 # Generated from test/helper/symbolize_helper.rb with RBS::Inline
 
 module SymbolizeHelper
+  # @rbs h: Hash[untyped, untyped]
   # @rbs return: Hash[untyped, untyped]
-  def self.symbolize_recursive: (untyped hash) -> Hash[untyped, untyped]
+  def self.symbolize_recursive: (untyped hash, ?Hash[untyped, untyped] h) -> Hash[untyped, untyped]
 
   private
 

@@ -1,9 +1,10 @@
 # rbs_inline: enabled
 
 module SymbolizeHelper
+  # @rbs h: Hash[untyped, untyped]
   # @rbs return: Hash[untyped, untyped]
-  def self.symbolize_recursive(hash)
-    Hash.new.tap do |h|
+  def self.symbolize_recursive(hash, hsh = {})
+    hsh.tap do |h|
       hash.each { |key, value| h[key.to_sym] = transform(value) }
     end
   end
