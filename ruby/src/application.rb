@@ -56,7 +56,7 @@ class Application
     output "Start exporting JSON data in #{filepath}"
     FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
     FileUtils.touch(filepath) unless File.exist?(filepath)
-    File.write(filepath, dump_sorted_json_data)
+    File.write(filepath, dump_converted_json_data_with_sorting)
     output "Done export JSON data in #{filepath} 🎉"
   end
 
@@ -70,14 +70,15 @@ class Application
   end
 
   # @rbs return: Hash[String, untyped]?
-  def sorted_json_data
-    order == :asc ? json_data&.sort&.to_h : json_data&.sort&.reverse&.to_h
+  def converted_json_data_with_sorting
+    sorted_json_data = json_data&.sort
+    order == :asc ? sorted_json_data&.to_h : sorted_json_data&.reverse&.to_h
   end
 
   # @rbs hash: Hash[String, untyped]
   # @rbs return: String
-  def dump_sorted_json_data(hash = {})
-    sorted_json_data&.each_with_object(hash) { |(key, value), hash|
+  def dump_converted_json_data_with_sorting(hash = {})
+    converted_json_data_with_sorting&.each_with_object(hash) { |(key, value), hash|
       hash[key] = case value
       when Hash
         order == :asc ? value.sort.to_h : value.sort.reverse.to_h
