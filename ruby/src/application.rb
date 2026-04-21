@@ -1,3 +1,5 @@
+# rbs_inline: enabled
+
 require 'json'
 require 'fileutils'
 
@@ -5,22 +7,32 @@ class Application
   class InvalidFilenameError < StandardError; end
   class InvalidOrderError < StandardError; end
 
-  def self.run(dirname:, filename:, order: :asc)
+  # @rbs dirname: String
+  # @rbs filename: String
+  # @rbs order: untyped
+  # @rbs return: void
+  def self.run(dirname: '', filename: '', order: :asc)
     order    = order.respond_to?(:to_sym) ? order.to_sym : order
-    instance = new(dirname, filename, order)
+    instance = new(dirname:, filename:, order:)
     instance.validate_filename!
     instance.validate_order!
     instance.run
   end
 
-  def initialize(dirname, filename, order)
+  # @rbs dirname: String
+  # @rbs filename: String
+  # @rbs order: untyped
+  # ⚠️ `order` expects a class which can be converted to Symbol by `to_sym` method(e.g. String, Symbol).
+  # ⚠️ Otherwise, it will raise an error when validating order.
+  # @rbs return: void
+  def initialize(dirname: '', filename: '', order: :asc)
     @dirname  = dirname
     @filename = filename
     @filepath = File.join(dirname, filename)
     @order    = order
   end
 
-  # @return [String] or raise[InvalidFilenameError]
+  # @rbs return: String
   def validate_filename!
     if filename.empty?
       raise InvalidFilenameError, 'Filename must be provided.'
@@ -29,7 +41,7 @@ class Application
     end
   end
 
-  # @return [Symbol] or raise[InvalidOrderError]
+  # @rbs return: Symbol
   def validate_order!
     case order
     when :asc, :desc
@@ -39,11 +51,12 @@ class Application
     end
   end
 
+  # @rbs return: void
   def run
     output "Start exporting JSON data in #{filepath}"
     FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
     FileUtils.touch(filepath) unless File.exist?(filepath)
-    File.write(filepath, dump_sorted_json_data)
+    File.write(filepath, dump_converted_json_data_with_sorting)
     output "Done export JSON data in #{filepath} 🎉"
   end
 
@@ -51,21 +64,21 @@ class Application
 
   attr_reader :dirname, :filename, :filepath, :order
 
-  # @return [Hash] or [nil]
+  # @rbs return: Hash[String, untyped]?
   def json_data
     File.open(filepath) { |f| JSON.load(f) }
   end
 
-  # @return [Hash] or [nil]
-  def sorted_json_data
-    return unless json_data
-    order == :asc ? json_data.sort.to_h : json_data.sort.reverse.to_h
+  # @rbs return: Hash[String, untyped]?
+  def converted_json_data_with_sorting
+    sorted_json_data = json_data&.sort
+    order == :asc ? sorted_json_data&.to_h : sorted_json_data&.reverse&.to_h
   end
 
-  # @return [String] or [nil]
-  def dump_sorted_json_data
-    return unless sorted_json_data
-    sorted_json_data.each_with_object({}) { |(key, value), hash|
+  # @rbs hash: Hash[String, untyped]
+  # @rbs return: String
+  def dump_converted_json_data_with_sorting(hash = {})
+    converted_json_data_with_sorting&.each_with_object(hash) { |(key, value), hash|
       hash[key] = case value
       when Hash
         order == :asc ? value.sort.to_h : value.sort.reverse.to_h
@@ -79,12 +92,13 @@ class Application
     }
   end
 
-  # @return [Boolean]
+  # @rbs return: bool
   def test_env?
     caller[-1].split('/').last.match?(/minitest\.rb/)
   end
 
-  # @return [void]
+  # @rbs message: String
+  # @rbs return: void
   def output(message)
     puts message unless test_env?
   end
