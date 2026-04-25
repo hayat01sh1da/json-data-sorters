@@ -1,7 +1,6 @@
 # rbs_inline: enabled
 
 require 'json'
-require 'fileutils'
 
 class Application
   class InvalidFilenameError < StandardError; end
