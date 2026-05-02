@@ -27,14 +27,14 @@ Done export JSON data in ./json/settings.json 🎉
 ## 4. Unit Test
 
 ```command
-$ ruby test/application_test.rb 
-Run options: --seed 44849
+$ rake
+Run options: --seed 65057
 
 # Running:
 
 .....
 
-Finished in 0.106035s, 47.1541 runs/s, 75.4466 assertions/s.
+Finished in 0.203643s, 24.5528 runs/s, 39.2845 assertions/s.
 
 5 runs, 8 assertions, 0 failures, 0 errors, 0 skips
 ```
