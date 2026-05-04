@@ -12,7 +12,6 @@ $ bundle lock --add-checksums
 ## 3. Execution
 
 ```command
-$ cd ./ruby
 $ ruby main.rb
 Provide the directory name you put the JSON file in:
 ../json
