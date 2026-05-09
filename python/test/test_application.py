@@ -1,4 +1,3 @@
-from application import Application, InvalidFilenameError, InvalidOrderError
 import json
 import unittest
 import os
@@ -6,6 +5,7 @@ import glob
 import shutil
 import sys
 sys.path.append('./src')
+from application import Application, InvalidFilenameError, InvalidOrderError
 
 
 class TestApplication(unittest.TestCase):
