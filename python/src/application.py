@@ -3,14 +3,21 @@ import json
 import inspect
 from typing import Any
 
+
 class InvalidFilenameError(Exception):
     pass
+
 
 class InvalidOrderError(Exception):
     pass
 
+
 class Application:
-    def __init__(self, dirname: str, filename: str, order: str = 'asc') -> None:
+    def __init__(
+            self,
+            dirname: str,
+            filename: str,
+            order: str = 'asc') -> None:
         self.dirname = dirname
         if len(filename) == 0:
             raise InvalidFilenameError('Filename must be provided.')
@@ -21,11 +28,13 @@ class Application:
         if not (order == 'asc' or order == 'desc'):
             raise InvalidOrderError('Order option must be either asc or desc.')
         self.order = order
-        self.env   = inspect.stack()[1].filename.split('/')[-2]
+        self.env = inspect.stack()[1].filename.split('/')[-2]
 
     def run(self) -> None:
-        self.__output__('Start exporting JSON data in {filepath}'.format(filepath = self.filepath))
-        os.makedirs(self.dirname, exist_ok = True)
+        self.__output__(
+            'Start exporting JSON data in {filepath}'.format(
+                filepath=self.filepath))
+        os.makedirs(self.dirname, exist_ok=True)
         if not os.path.isfile(self.filepath):
             with open(self.filepath, 'w') as f:
                 f.write('')
@@ -35,7 +44,9 @@ class Application:
         except json.decoder.JSONDecodeError:
             with open(self.filepath, 'a') as f:
                 f.write('')
-        self.__output__('Done exporting JSON data in {filepath} 🎉'.format(filepath = self.filepath))
+        self.__output__(
+            'Done exporting JSON data in {filepath} 🎉'.format(
+                filepath=self.filepath))
 
     # private
 
@@ -47,22 +58,33 @@ class Application:
         return json_data
 
     def __sorted_json_data__(self) -> dict[str, Any]:
-        return dict(sorted(self.__json_data__().items())) if self.order == 'asc' else dict(sorted(self.__json_data__().items(), reverse = True))
+        return dict(
+            sorted(
+                self.__json_data__().items())) if self.order == 'asc' else dict(
+            sorted(
+                self.__json_data__().items(),
+                reverse=True))
 
     def __dump_sorted_json_data__(self) -> str:
         dictionary = {}
         for key, value in self.__sorted_json_data__().items():
             if isinstance(value, dict):
-                dictionary[key] = dict(sorted(value.items())) if self.order == 'asc' else dict(sorted(value.items(), reverse = True))
+                dictionary[key] = dict(
+                    sorted(
+                        value.items())) if self.order == 'asc' else dict(
+                    sorted(
+                        value.items(),
+                        reverse=True))
             elif isinstance(value, list):
-                dictionary[key] = sorted(value) if self.order == 'asc' else sorted(value, reverse = True)
+                dictionary[key] = sorted(
+                    value) if self.order == 'asc' else sorted(value, reverse=True)
             else:
                 dictionary[key] = value
-        return json.dumps(dictionary, ensure_ascii = False, indent = 2)
+        return json.dumps(dictionary, ensure_ascii=False, indent=2)
 
     def __is_test_env__(self) -> bool:
         """Check if running in a test environment.
-        
+
         Returns:
             bool: True if in test environment, False otherwise.
         """
