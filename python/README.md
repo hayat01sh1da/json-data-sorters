@@ -1,6 +1,6 @@
 ## 1. Environment
 
-- Python 3.14.4
+- Python 3.14.5
 
 ## 2. Install Libraries via requirements.txt
 
@@ -24,7 +24,7 @@ Done exporting JSON data in ./json/settings.json 🎉
 ```command
 $ pytest 
 ============================= test session starts ==============================
-platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
+platform linux -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
 rootdir: /mnt/c/Users/binlh/Documents/development/json-data-sorters/python
 collected 5 items
 
