@@ -1,13 +1,12 @@
-import glob
+import pytest
+import re
 import json
 import os
 import shutil
 import sys
+from collections.abc import Iterator
 
 sys.path.append('./src')
-
-
-import pytest
 
 
 _USER_DATA = {
@@ -17,8 +16,18 @@ _USER_DATA = {
         'gender': 'Male',
         'occupation': 'Global Trading Marketer',
         'skills': {
-            'languages': ['Japanese', 'English', 'Spanish', 'German', 'French'],
-            'expertise': ['Marketing', 'Accounting', 'Interpretation', 'Translation', 'Economics'],
+            'languages': [
+                'Japanese',
+                'English',
+                'Spanish',
+                'German',
+                'French'],
+            'expertise': [
+                'Marketing',
+                'Accounting',
+                'Interpretation',
+                'Translation',
+                'Economics'],
         },
     },
     'user3': {
@@ -27,7 +36,9 @@ _USER_DATA = {
         'gender': 'Female',
         'occupation': 'High School Teacher',
         'skills': {
-            'languages': ['English', 'Spanish'],
+            'languages': [
+                'English',
+                'Spanish'],
             'expertise': ['Teaching Foreign Language'],
         },
     },
@@ -36,7 +47,9 @@ _USER_DATA = {
         'age': 35,
         'occupation': 'Software Engineer',
         'skills': {
-            'languages': ['Japanese', 'English'],
+            'languages': [
+                'Japanese',
+                'English'],
             'expertise': [
                 'Server-Side Programming',
                 'Front-end Programming',
@@ -49,16 +62,18 @@ _USER_DATA = {
 
 
 @pytest.fixture(autouse=True)
-def _cleanup_pycaches():
-    before = set(glob.glob(os.path.join('.', '**', '__pycache__'), recursive=True))
+def __cleanup_caches__() -> Iterator[None]:
     yield
-    for pycache in before:
-        if os.path.exists(pycache):
-            shutil.rmtree(pycache)
+    cache_dir = re.compile(r'^(?:__pycache__|\.pytest_cache|\.mypy_cache)$')
+    for root, dirs, _ in os.walk('.'):
+        for name in list(dirs):
+            if cache_dir.match(name):
+                shutil.rmtree(os.path.join(root, name), ignore_errors=True)
+                dirs.remove(name)
 
 
 @pytest.fixture
-def users_workspace():
+def users_workspace() -> Iterator[tuple[str, str, str]]:
     dirname = os.path.join('.', 'test', 'tmp')
     filename = 'users.json'
     filepath = os.path.join(dirname, filename)
