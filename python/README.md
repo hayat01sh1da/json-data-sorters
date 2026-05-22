@@ -19,7 +19,7 @@ settings.json
 Provide asc(default) or desc you would like to sort key-value in
 asc
 Start exporting JSON data in ./json/settings.json
-Done export JSON data in ./json/settings.json 🎉
+Done exporting JSON data in ./json/settings.json 🎉
 ```
 
 ## 4. Unit Test
