@@ -11,10 +11,13 @@ $ pip install -r requirements.txt
 ## 3. Execution
 
 ```command
-$ python main.py
-Provide the directory name you put the JSON file in: ../json
-Provide the filename of which JSON data name you would like to sort: settings.json
-Provide asc(default) or desc you would like to sort key-value in: asc
+$ invoke run_json_data_sorter
+Provide the directory name you put the JSON file in
+../json
+Provide the filename of which JSON data name you would like to sort
+settings.json
+Provide asc(default) or desc you would like to sort key-value in
+asc
 Start exporting JSON data in ./json/settings.json
 Done export JSON data in ./json/settings.json 🎉
 ```
@@ -22,7 +25,7 @@ Done export JSON data in ./json/settings.json 🎉
 ## 4. Unit Test
 
 ```command
-$ pytest .
+$ invoke
 ============================= test session starts ==============================
 platform linux -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
 rootdir: json-data-sorters/python
@@ -38,8 +41,6 @@ test/test_application.py .....                                           [100%]
 
 ```command
 $ flake8 .
-./main.py:11:80: E501 line too long (84 > 79 characters)
-./main.py:13:80: E501 line too long (81 > 79 characters)
 ./src/application.py:59:80: E501 line too long (80 > 79 characters)
 ./src/application.py:76:80: E501 line too long (82 > 79 characters)
 ./test/test_application.py:132:80: E501 line too long (85 > 79 characters)
