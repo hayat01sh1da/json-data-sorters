@@ -63,7 +63,7 @@ class ApplicationTest < Minitest::Test
   attr_reader :dirname, :filename, :filepath
 
   def actual_json
-    File.open(filepath) { |f| JSON.parse(f).deep_symbolize_keys }
+    File.open(filepath) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end
 
   def json_data

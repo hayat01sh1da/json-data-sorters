@@ -66,7 +66,7 @@ class Application
 
   # @rbs return: Hash[String, untyped]?
   def json_data
-    File.open(filepath) { |f| JSON.parse(f) }
+    File.open(filepath) { |f| JSON.parse(f.read) }
   end
 
   # @rbs return: Hash[String, untyped]?
@@ -99,7 +99,10 @@ class Application
 
   # @rbs return: bool
   def test_env?
-    caller(0..0).first.split('/').last.include?('minitest.rb')
+    runner = caller(0..0)
+    return false if runner.nil?
+
+    runner.first.split('/').last.include?('minitest.rb')
   end
 
   # @rbs message: String
