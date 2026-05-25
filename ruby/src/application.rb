@@ -3,6 +3,8 @@
 
 require 'json'
 
+# Reads a JSON object file, sorts its top-level keys (and any nested Hash/Array
+# values) ascending or descending, and rewrites it as pretty JSON.
 class Application
   class InvalidFilenameError < StandardError; end
   class InvalidOrderError < StandardError; end
