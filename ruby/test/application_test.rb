@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 # rbs_inline: enabled
 
 require 'minitest/autorun'
 require 'json'
 require_relative '../src/application'
-require_relative './helper/symbolize_helper'
+require_relative 'helper/symbolize_helper'
 
 class ApplicationTest < Minitest::Test
   using SymbolizeHelper
@@ -12,7 +13,7 @@ class ApplicationTest < Minitest::Test
     @dirname  = File.join('.', 'test', 'tmp')
     @filename = 'users.json'
     @filepath = File.join(dirname, filename)
-    FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)
+    FileUtils.mkdir_p(dirname)
     File.write(filepath, json_data)
   end
 
@@ -24,11 +25,13 @@ class ApplicationTest < Minitest::Test
 
   def test_sort_json_data_by_asc
     Application.run(dirname:, filename:, order: :asc)
+
     assert_equal(sorted_user_data_by_asc, actual_json)
   end
 
   def test_sort_json_data_by_desc
     Application.run(dirname:, filename:, order: :desc)
+
     assert_equal(sorted_user_data_by_desc, actual_json)
   end
 
@@ -60,7 +63,7 @@ class ApplicationTest < Minitest::Test
   attr_reader :dirname, :filename, :filepath
 
   def actual_json
-    File.open(filepath) { |f| JSON.load(f).deep_symbolize_keys }
+    File.open(filepath) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end
 
   def json_data
@@ -76,19 +79,19 @@ class ApplicationTest < Minitest::Test
         gender: 'Male',
         occupation: 'Global Trading Marketer',
         skills: {
-          languages: [
-            'Japanese',
-            'English',
-            'Spanish',
-            'German',
-            'French'
+          languages: %w[
+            Japanese
+            English
+            Spanish
+            German
+            French
           ],
-          expertise: [
-            'Marketing',
-            'Accounting',
-            'Interpretation',
-            'Translation',
-            'Economics'
+          expertise: %w[
+            Marketing
+            Accounting
+            Interpretation
+            Translation
+            Economics
           ]
         }
       },
@@ -98,9 +101,9 @@ class ApplicationTest < Minitest::Test
         gender: 'Female',
         occupation: 'High School Teacher',
         skills: {
-          languages: [
-            'English',
-            'Spanish'
+          languages: %w[
+            English
+            Spanish
           ],
           expertise: [
             'Teaching Foreign Language'
@@ -112,15 +115,15 @@ class ApplicationTest < Minitest::Test
         age: 35,
         occupation: 'Software Engineer',
         skills: {
-          languages: [
-            'Japanese',
-            'English'
+          languages: %w[
+            Japanese
+            English
           ],
           expertise: [
             'Server-Side Programming',
             'Front-end Programming',
             'Infrastructure Management',
-            'Team Members Management',
+            'Team Members Management'
           ]
         }
       }
@@ -134,9 +137,9 @@ class ApplicationTest < Minitest::Test
         name: 'Wade Williams',
         occupation: 'Software Engineer',
         skills: {
-          languages: [
-            'Japanese',
-            'English'
+          languages: %w[
+            Japanese
+            English
           ],
           expertise: [
             'Server-Side Programming',
@@ -152,19 +155,19 @@ class ApplicationTest < Minitest::Test
         name: 'Wade Williams',
         occupation: 'Global Trading Marketer',
         skills: {
-          languages: [
-            'Japanese',
-            'English',
-            'Spanish',
-            'German',
-            'French'
+          languages: %w[
+            Japanese
+            English
+            Spanish
+            German
+            French
           ],
-          expertise: [
-            'Marketing',
-            'Accounting',
-            'Interpretation',
-            'Translation',
-            'Economics'
+          expertise: %w[
+            Marketing
+            Accounting
+            Interpretation
+            Translation
+            Economics
           ]
         }
       },
@@ -174,9 +177,9 @@ class ApplicationTest < Minitest::Test
         name: 'Daisy Harris',
         occupation: 'High School Teacher',
         skills: {
-          languages: [
-            'English',
-            'Spanish'
+          languages: %w[
+            English
+            Spanish
           ],
           expertise: [
             'Teaching Foreign Language'
@@ -190,9 +193,9 @@ class ApplicationTest < Minitest::Test
     {
       user3: {
         skills: {
-          languages: [
-            'English',
-            'Spanish'
+          languages: %w[
+            English
+            Spanish
           ],
           expertise: [
             'Teaching Foreign Language'
@@ -205,19 +208,19 @@ class ApplicationTest < Minitest::Test
       },
       user2: {
         skills: {
-          languages: [
-            'Japanese',
-            'English',
-            'Spanish',
-            'German',
-            'French'
+          languages: %w[
+            Japanese
+            English
+            Spanish
+            German
+            French
           ],
-          expertise: [
-            'Marketing',
-            'Accounting',
-            'Interpretation',
-            'Translation',
-            'Economics'
+          expertise: %w[
+            Marketing
+            Accounting
+            Interpretation
+            Translation
+            Economics
           ]
         },
         occupation: 'Global Trading Marketer',
@@ -227,9 +230,9 @@ class ApplicationTest < Minitest::Test
       },
       user1: {
         skills: {
-          languages: [
-            'Japanese',
-            'English'
+          languages: %w[
+            Japanese
+            English
           ],
           expertise: [
             'Server-Side Programming',
