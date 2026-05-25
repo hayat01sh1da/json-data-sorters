@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # rbs_inline: enabled
 
 require 'json'
@@ -11,7 +12,7 @@ class Application
   # @rbs order: untyped
   # @rbs return: void
   def self.run(dirname: '', filename: '', order: :asc)
-    order    = order.respond_to?(:to_sym) ? order.to_sym : order
+    order    = order.to_sym if order.respond_to?(:to_sym)
     instance = new(dirname:, filename:, order:)
     instance.validate_filename!
     instance.validate_order!
@@ -33,11 +34,9 @@ class Application
 
   # @rbs return: String
   def validate_filename!
-    if filename.empty?
-      raise InvalidFilenameError, 'Filename must be provided.'
-    else
-      filename
-    end
+    raise InvalidFilenameError, 'Filename must be provided.' if filename.empty?
+
+    filename
   end
 
   # @rbs return: Symbol
@@ -53,7 +52,7 @@ class Application
   # @rbs return: void
   def run
     output "Start exporting JSON data in #{filepath}"
-    FileUtils.mkdir(dirname) unless Dir.exist?(dirname)
+    FileUtils.mkdir_p(dirname)
     FileUtils.touch(filepath) unless File.exist?(filepath)
     File.write(filepath, dump_converted_json_data_with_sorting)
     output "Done export JSON data in #{filepath} 🎉"
@@ -65,7 +64,7 @@ class Application
 
   # @rbs return: Hash[String, untyped]?
   def json_data
-    File.open(filepath) { |f| JSON.load(f) }
+    File.open(filepath) { |f| JSON.parse(f) }
   end
 
   # @rbs return: Hash[String, untyped]?
@@ -77,23 +76,23 @@ class Application
   # @rbs hash: Hash[String, untyped]
   # @rbs return: String
   def dump_converted_json_data_with_sorting(hash = {})
-    converted_json_data_with_sorting&.each_with_object(hash) { |(key, value), hash|
+    converted_json_data_with_sorting&.each_with_object(hash) do |(key, value), hash|
       hash[key] = case value
-      when Hash
-        order == :asc ? value.sort.to_h : value.sort.reverse.to_h
-      when Array
-        order == :asc ? value.sort : value.sort.reverse
-      else
-        value
-      end
-    }.then { |sorted_hash|
+                  when Hash
+                    order == :asc ? value.sort.to_h : value.sort.reverse.to_h
+                  when Array
+                    order == :asc ? value.sort : value.sort.reverse
+                  else
+                    value
+                  end
+    end.then do |sorted_hash|
       JSON.pretty_generate(sorted_hash)
-    }
+    end
   end
 
   # @rbs return: bool
   def test_env?
-    caller[-1].split('/').last.match?(/minitest\.rb/)
+    caller(0..0).first.split('/').last.include?('minitest.rb')
   end
 
   # @rbs message: String
