@@ -1,5 +1,7 @@
 # Generated from src/application.rb with RBS::Inline
 
+# Reads a JSON object file, sorts its top-level keys (and any nested Hash/Array
+# values) ascending or descending, and rewrites it as pretty JSON.
 class Application
   class InvalidFilenameError < StandardError
   end
@@ -49,6 +51,10 @@ class Application
   # @rbs hash: Hash[String, untyped]
   # @rbs return: String
   def dump_converted_json_data_with_sorting: (?Hash[String, untyped] hash) -> String
+
+  # @rbs value: untyped
+  # @rbs return: untyped
+  def sort_value: (untyped value) -> untyped
 
   # @rbs return: bool
   def test_env?: () -> bool
