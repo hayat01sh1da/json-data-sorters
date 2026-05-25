@@ -7,11 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-# Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
-Metrics/AbcSize:
-  Max: 18
-
-# Offense count: 1
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
   Max: 219
@@ -29,7 +24,3 @@ Style/Documentation:
     - 'test/**/*'
     - 'src/application.rb'
 
-# Offense count: 1
-Style/MultilineBlockChain:
-  Exclude:
-    - 'src/application.rb'

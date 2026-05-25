@@ -76,17 +76,22 @@ class Application
   # @rbs hash: Hash[String, untyped]
   # @rbs return: String
   def dump_converted_json_data_with_sorting(hash = {})
-    converted_json_data_with_sorting&.each_with_object(hash) do |(key, value), hash|
-      hash[key] = case value
-                  when Hash
-                    order == :asc ? value.sort.to_h : value.sort.reverse.to_h
-                  when Array
-                    order == :asc ? value.sort : value.sort.reverse
-                  else
-                    value
-                  end
-    end.then do |sorted_hash|
-      JSON.pretty_generate(sorted_hash)
+    sorted_hash = converted_json_data_with_sorting&.each_with_object(hash) do |(key, value), acc|
+      acc[key] = sort_value(value)
+    end
+    JSON.pretty_generate(sorted_hash)
+  end
+
+  # @rbs value: untyped
+  # @rbs return: untyped
+  def sort_value(value)
+    case value
+    when Hash
+      order == :asc ? value.sort.to_h : value.sort.reverse.to_h
+    when Array
+      order == :asc ? value.sort : value.sort.reverse
+    else
+      value
     end
   end
 
