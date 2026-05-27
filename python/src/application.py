@@ -57,7 +57,8 @@ class Application:
 
     def _json_data(self) -> dict[str, Any]:
         with open(self._filepath) as f:
-            return json.load(f)
+            data: dict[str, Any] = json.load(f)
+        return data
 
     def _converted_json_data_with_sorting(self) -> dict[str, Any]:
         return dict(sorted(
