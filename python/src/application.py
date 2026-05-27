@@ -1,99 +1,92 @@
-import os
-import json
 import inspect
-
-
-class InvalidFilenameError(Exception):
-    pass
-
-
-class InvalidOrderError(Exception):
-    pass
+import json
+import os
+from typing import Any
 
 
 class Application:
-    def __init__(self, dirname: str, filename: str,
-                 order: str = 'asc') -> None:
-        self.dirname = dirname
-        if len(filename) == 0:
-            raise InvalidFilenameError('Filename must be provided.')
-        self.filename = filename
-        self.filepath = os.path.join(dirname, filename)
-        if not str(type(order)) == "<class 'str'>":
-            raise InvalidOrderError('Unexpected param was provided')
-        if not (order == 'asc' or order == 'desc'):
-            raise InvalidOrderError('Order option must be either asc or desc.')
-        self.order = order
-        self.env = inspect.stack()[1].filename.split('/')[-2]
+    """Reads a JSON object file, sorts its top-level keys (and any nested
+    dict/list values) ascending or descending, and rewrites it as pretty
+    JSON."""
 
-    def run(self) -> None:
-        self.__output__(
-            'Start exporting JSON data in {filepath}'.format(
-                filepath=self.filepath))
-        os.makedirs(self.dirname, exist_ok=True)
-        if not os.path.isfile(self.filepath):
-            with open(self.filepath, 'w') as f:
-                f.write('')
-        try:
-            with open(self.filepath, 'a') as f:
-                f.write(self.__dump_sorted_json_data__())
-        except json.decoder.JSONDecodeError:
-            with open(self.filepath, 'a') as f:
-                f.write('')
-        self.__output__(
-            'Done exporting JSON data in {filepath} 🎉'.format(
-                filepath=self.filepath))
+    class InvalidFilenameError(Exception):
+        pass
+
+    class InvalidOrderError(Exception):
+        pass
+
+    @classmethod
+    def run(cls, dirname: str = '', filename: str = '',
+            order: Any = 'asc') -> None:
+        instance = cls(dirname=dirname, filename=filename, order=order)
+        instance.validate_filename()
+        instance.validate_order()
+        instance._run()
+
+    def __init__(self, dirname: str = '', filename: str = '',
+                 order: Any = 'asc') -> None:
+        self._dirname = dirname
+        self._filename = filename
+        self._filepath = os.path.join(dirname, filename)
+        self._order = order
+
+    def validate_filename(self) -> str:
+        if not self._filename:
+            raise self.InvalidFilenameError('Filename must be provided.')
+        return self._filename
+
+    def validate_order(self) -> str:
+        if not isinstance(self._order, str) or \
+                self._order not in ('asc', 'desc'):
+            raise self.InvalidOrderError(
+                'Order option must be either asc or desc.')
+        return self._order
 
     # private
 
-    def __json_data__(self) -> dict[str, dict | str | int | bool]:
-        json_data: dict[str, dict | str | int | bool] = {}
-        with open(self.filepath, 'r+') as f:
-            json_data = json.load(f)
-            f.truncate(0)
-        return json_data
+    def _run(self) -> None:
+        self._output(f'Start exporting JSON data in {self._filepath}')
+        os.makedirs(self._dirname, exist_ok=True)
+        if not os.path.isfile(self._filepath):
+            with open(self._filepath, 'w') as f:
+                f.write('')
+        dumped = self._dump_converted_json_data_with_sorting()
+        with open(self._filepath, 'w') as f:
+            f.write(dumped)
+        self._output(f'Done export JSON data in {self._filepath} 🎉')
 
-    def __sorted_json_data__(self) -> dict[str, dict | str | int | bool]:
-        return dict(
-            sorted(
-                self.__json_data__().items())) if self.order == 'asc' else dict(
-            sorted(
-                self.__json_data__().items(),
-                reverse=True))
+    def _json_data(self) -> dict[str, Any]:
+        with open(self._filepath) as f:
+            return json.load(f)
 
-    def __dump_sorted_json_data__(self) -> str:
-        dictionary: dict[str, dict | str | int | bool] = {}
-        for key, value in self.__sorted_json_data__().items():
-            if isinstance(value, dict):
-                dictionary[key] = dict(
-                    sorted(
-                        value.items())) if self.order == 'asc' else dict(
-                    sorted(
-                        value.items(),
-                        reverse=True))
-            elif isinstance(value, list):
-                dictionary[key] = sorted(
-                    value) if self.order == 'asc' else sorted(value, reverse=True)
-            else:
-                dictionary[key] = value
-        return json.dumps(dictionary, ensure_ascii=False, indent=2)
+    def _converted_json_data_with_sorting(self) -> dict[str, Any]:
+        return dict(sorted(
+            self._json_data().items(),
+            reverse=(self._order == 'desc'),
+        ))
 
-    def __is_test_env__(self) -> bool:
-        """Check if running in a test environment.
+    def _dump_converted_json_data_with_sorting(self) -> str:
+        sorted_hash = {
+            key: self._sort_value(value)
+            for key, value in
+            self._converted_json_data_with_sorting().items()
+        }
+        return json.dumps(sorted_hash, ensure_ascii=False, indent=2)
 
-        Returns:
-            bool: True if in test environment, False otherwise.
-        """
-        return self.env == 'test'
+    def _sort_value(self, value: Any) -> Any:
+        if isinstance(value, dict):
+            return dict(sorted(
+                value.items(), reverse=(self._order == 'desc')))
+        if isinstance(value, list):
+            return sorted(value, reverse=(self._order == 'desc'))
+        return value
 
-    def __output__(self, message: str) -> None:
-        """Output a message if not running in the test environment.
+    def _test_env(self) -> bool:
+        stack = inspect.stack()
+        if not stack:
+            return False
+        return 'pytest' in os.path.basename(stack[-1].filename)
 
-        Args:
-            message: The message to output.
-
-        Returns:
-            None
-        """
-        if not self.__is_test_env__():
+    def _output(self, message: str) -> None:
+        if not self._test_env():
             print(message)
