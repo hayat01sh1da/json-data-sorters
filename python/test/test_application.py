@@ -3,7 +3,7 @@ from typing import Any
 
 import pytest
 
-from application import Application, InvalidFilenameError, InvalidOrderError
+from application import Application
 
 
 def _read_json(filepath: str) -> Any:
@@ -17,9 +17,7 @@ _SORTED_BY_ASC = {
         'name': 'Wade Williams',
         'occupation': 'Software Engineer',
         'skills': {
-            'languages': [
-                'Japanese',
-                'English'],
+            'languages': ['Japanese', 'English'],
             'expertise': [
                 'Server-Side Programming',
                 'Front-end Programming',
@@ -35,17 +33,10 @@ _SORTED_BY_ASC = {
         'occupation': 'Global Trading Marketer',
         'skills': {
             'languages': [
-                'Japanese',
-                'English',
-                'Spanish',
-                'German',
-                'French'],
+                'Japanese', 'English', 'Spanish', 'German', 'French'],
             'expertise': [
-                'Marketing',
-                'Accounting',
-                'Interpretation',
-                'Translation',
-                'Economics'],
+                'Marketing', 'Accounting', 'Interpretation',
+                'Translation', 'Economics'],
         },
     },
     'user3': {
@@ -54,9 +45,7 @@ _SORTED_BY_ASC = {
         'name': 'Daisy Harris',
         'occupation': 'High School Teacher',
         'skills': {
-            'languages': [
-                'English',
-                'Spanish'],
+            'languages': ['English', 'Spanish'],
             'expertise': ['Teaching Foreign Language'],
         },
     },
@@ -65,30 +54,21 @@ _SORTED_BY_ASC = {
 _SORTED_BY_DESC = {
     'user3': {
         'skills': {
-            'languages': [
-                'English',
-                'Spanish'],
+            'languages': ['English', 'Spanish'],
             'expertise': ['Teaching Foreign Language'],
         },
         'occupation': 'High School Teacher',
         'name': 'Daisy Harris',
-                'gender': 'Female',
-                'age': 30,
+        'gender': 'Female',
+        'age': 30,
     },
     'user2': {
         'skills': {
             'languages': [
-                'Japanese',
-                'English',
-                'Spanish',
-                'German',
-                'French'],
+                'Japanese', 'English', 'Spanish', 'German', 'French'],
             'expertise': [
-                'Marketing',
-                'Accounting',
-                'Interpretation',
-                'Translation',
-                'Economics'],
+                'Marketing', 'Accounting', 'Interpretation',
+                'Translation', 'Economics'],
         },
         'occupation': 'Global Trading Marketer',
         'name': 'Wade Williams',
@@ -97,9 +77,7 @@ _SORTED_BY_DESC = {
     },
     'user1': {
         'skills': {
-            'languages': [
-                'Japanese',
-                'English'],
+            'languages': ['Japanese', 'English'],
             'expertise': [
                 'Server-Side Programming',
                 'Front-end Programming',
@@ -114,35 +92,43 @@ _SORTED_BY_DESC = {
 }
 
 
-def test_sort_json_data_by_asc(users_workspace: tuple[str, str, str]) -> None:
+def test_sort_json_data_by_asc(
+        users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, filepath = users_workspace
-    Application(dirname=dirname, filename=filename).run()
+    Application.run(dirname=dirname, filename=filename, order='asc')
     assert _read_json(filepath) == _SORTED_BY_ASC
 
 
-def test_sort_json_data_by_desc(users_workspace: tuple[str, str, str]) -> None:
+def test_sort_json_data_by_desc(
+        users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, filepath = users_workspace
-    Application(dirname=dirname, filename=filename, order='desc').run()
+    Application.run(dirname=dirname, filename=filename, order='desc')
     assert _read_json(filepath) == _SORTED_BY_DESC
 
 
-def test_sort_json_data_with_missing_filename(
+def test_sort_json_data_with_no_filename(
         users_workspace: tuple[str, str, str]) -> None:
     dirname, _, _ = users_workspace
-    with pytest.raises(InvalidFilenameError, match=r'^Filename must be provided\.$'):
-        Application(dirname=dirname, filename='').run()
+    with pytest.raises(
+            Application.InvalidFilenameError,
+            match=r'^Filename must be provided\.$'):
+        Application.run(dirname=dirname, filename='')
 
 
-def test_sort_json_data_with_invalid_order(
+def test_sort_json_data_with_invalid_order_type(
         users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, _ = users_workspace
-    with pytest.raises(InvalidOrderError, match=r'^Order option must be either asc or desc\.$'):
-        Application(dirname=dirname, filename=filename, order='hoge').run()
+    with pytest.raises(
+            Application.InvalidOrderError,
+            match=r'^Order option must be either asc or desc\.$'):
+        Application.run(dirname=dirname, filename=filename, order='hoge')
 
 
-def test_sort_json_data_with_non_string_order(
+def test_sort_json_data_with_invalid_data_type_of_order(
         users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, _ = users_workspace
-    with pytest.raises(InvalidOrderError, match=r'^Unexpected param was provided$'):
-        Application(dirname=dirname, filename=filename,
-                    order=1).run()  # type: ignore[arg-type]
+    with pytest.raises(
+            Application.InvalidOrderError,
+            match=r'^Order option must be either asc or desc\.$'):
+        Application.run(
+            dirname=dirname, filename=filename, order=1)

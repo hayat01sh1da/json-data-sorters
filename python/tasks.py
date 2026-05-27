@@ -30,7 +30,7 @@ def run_json_data_sorter(c: Context) -> None:
         if value:
             params[key] = value
 
-    Application(**params).run()
+    Application.run(**params)
 
 
 @task(default=True)
