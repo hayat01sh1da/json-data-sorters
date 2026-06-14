@@ -11,7 +11,7 @@
 | Ruby sorter   | Ruby 4.0.5 (`.ruby-version`)       | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced.                |
 | Gemfile       | 4.0.12                             | Per-project dependency manifest; versions install via Bundler.                           |
 | Bundler       | 4.0.12                             | Resolves and installs the gems declared in the Gemfile.                                  |
-| Python sorter | CPython 3.14.5 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
+| Python sorter | CPython 3.14.6 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
 
 ## Backward Compatibility
 
