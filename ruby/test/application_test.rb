@@ -11,7 +11,11 @@ require_relative 'helper/symbolize_helper'
 class ApplicationTest < Minitest::Test
   using SymbolizeHelper
 
-  FIXTURES_DIR = File.join('.', 'test', 'fixtures') #: String
+  # @rbs skip
+  FIXTURES_DIR = File.join('.', 'test', 'fixtures')
+
+  # @rbs!
+  #   FIXTURES_DIR: String
 
   def setup
     @dirname  = File.join('.', 'test', 'tmp')
