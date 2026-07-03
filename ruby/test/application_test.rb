@@ -11,7 +11,7 @@ require_relative 'helper/symbolize_helper'
 class ApplicationTest < Minitest::Test
   using SymbolizeHelper
 
-  FIXTURES_DIR = File.join('.', 'test', 'fixtures')
+  FIXTURES_DIR = File.join('.', 'test', 'fixtures') #: String
 
   def setup
     @dirname  = File.join('.', 'test', 'tmp')
@@ -70,6 +70,8 @@ class ApplicationTest < Minitest::Test
     File.open(filepath) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end
 
+  # @rbs basename: String
+  # @rbs return: Hash[Symbol, untyped]
   def fixture_json(basename)
     File.open(File.join(FIXTURES_DIR, basename)) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end

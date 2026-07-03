@@ -1,6 +1,10 @@
 # Generated from test/application_test.rb with RBS::Inline
 
+# Tests the JSON data sorter against fixture data under test/fixtures/.
+# Conf. https://7esl.com/english-names/ for the fixture names.
 class ApplicationTest < Minitest::Test
+  FIXTURES_DIR: String
+
   def setup: () -> untyped
 
   def teardown: () -> untyped
@@ -25,10 +29,9 @@ class ApplicationTest < Minitest::Test
 
   def actual_json: () -> untyped
 
-  def json_data: () -> untyped
-
-  # Conf. https://7esl.com/english-names/
-  def user_data: () -> untyped
+  # @rbs basename: String
+  # @rbs return: Hash[Symbol, untyped]
+  def fixture_json: (String basename) -> Hash[Symbol, untyped]
 
   def sorted_user_data_by_asc: () -> untyped
 
