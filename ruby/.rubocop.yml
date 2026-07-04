@@ -7,12 +7,3 @@ plugins:
 AllCops:
   TargetRubyVersion: 4.0
   NewCops: enable
-
-# Tests build large JSON fixtures inline.
-Metrics/ClassLength:
-  Exclude:
-    - 'test/**/*'
-
-Metrics/MethodLength:
-  Exclude:
-    - 'test/**/*'

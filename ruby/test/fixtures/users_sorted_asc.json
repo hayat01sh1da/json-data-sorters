@@ -1,0 +1,31 @@
+{
+  "user1": {
+    "age": 35,
+    "name": "Wade Williams",
+    "occupation": "Software Engineer",
+    "skills": {
+      "languages": ["Japanese", "English"],
+      "expertise": ["Server-Side Programming", "Front-end Programming", "Infrastructure Management", "Team Members Management"]
+    }
+  },
+  "user2": {
+    "age": 45,
+    "gender": "Male",
+    "name": "Wade Williams",
+    "occupation": "Global Trading Marketer",
+    "skills": {
+      "languages": ["Japanese", "English", "Spanish", "German", "French"],
+      "expertise": ["Marketing", "Accounting", "Interpretation", "Translation", "Economics"]
+    }
+  },
+  "user3": {
+    "age": 30,
+    "gender": "Female",
+    "name": "Daisy Harris",
+    "occupation": "High School Teacher",
+    "skills": {
+      "languages": ["English", "Spanish"],
+      "expertise": ["Teaching Foreign Language"]
+    }
+  }
+}

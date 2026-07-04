@@ -6,15 +6,23 @@ require 'json'
 require_relative '../src/application'
 require_relative 'helper/symbolize_helper'
 
+# Tests the JSON data sorter against fixture data under test/fixtures/.
+# Conf. https://7esl.com/english-names/ for the fixture names.
 class ApplicationTest < Minitest::Test
   using SymbolizeHelper
+
+  # @rbs skip
+  FIXTURES_DIR = File.join('.', 'test', 'fixtures')
+
+  # @rbs!
+  #   FIXTURES_DIR: String
 
   def setup
     @dirname  = File.join('.', 'test', 'tmp')
     @filename = 'users.json'
     @filepath = File.join(dirname, filename)
     FileUtils.mkdir_p(dirname)
-    File.write(filepath, json_data)
+    FileUtils.cp(File.join(FIXTURES_DIR, 'users.json'), filepath)
   end
 
   def teardown
@@ -66,185 +74,17 @@ class ApplicationTest < Minitest::Test
     File.open(filepath) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end
 
-  def json_data
-    JSON.dump(user_data)
-  end
-
-  # Conf. https://7esl.com/english-names/
-  def user_data
-    {
-      user2: {
-        name: 'Wade Williams',
-        age: 45,
-        gender: 'Male',
-        occupation: 'Global Trading Marketer',
-        skills: {
-          languages: %w[
-            Japanese
-            English
-            Spanish
-            German
-            French
-          ],
-          expertise: %w[
-            Marketing
-            Accounting
-            Interpretation
-            Translation
-            Economics
-          ]
-        }
-      },
-      user3: {
-        name: 'Daisy Harris',
-        age: 30,
-        gender: 'Female',
-        occupation: 'High School Teacher',
-        skills: {
-          languages: %w[
-            English
-            Spanish
-          ],
-          expertise: [
-            'Teaching Foreign Language'
-          ]
-        }
-      },
-      user1: {
-        name: 'Wade Williams',
-        age: 35,
-        occupation: 'Software Engineer',
-        skills: {
-          languages: %w[
-            Japanese
-            English
-          ],
-          expertise: [
-            'Server-Side Programming',
-            'Front-end Programming',
-            'Infrastructure Management',
-            'Team Members Management'
-          ]
-        }
-      }
-    }
+  # @rbs basename: String
+  # @rbs return: Hash[Symbol, untyped]
+  def fixture_json(basename)
+    File.open(File.join(FIXTURES_DIR, basename)) { |f| JSON.parse(f.read).deep_symbolize_keys }
   end
 
   def sorted_user_data_by_asc
-    {
-      user1: {
-        age: 35,
-        name: 'Wade Williams',
-        occupation: 'Software Engineer',
-        skills: {
-          languages: %w[
-            Japanese
-            English
-          ],
-          expertise: [
-            'Server-Side Programming',
-            'Front-end Programming',
-            'Infrastructure Management',
-            'Team Members Management'
-          ]
-        }
-      },
-      user2: {
-        age: 45,
-        gender: 'Male',
-        name: 'Wade Williams',
-        occupation: 'Global Trading Marketer',
-        skills: {
-          languages: %w[
-            Japanese
-            English
-            Spanish
-            German
-            French
-          ],
-          expertise: %w[
-            Marketing
-            Accounting
-            Interpretation
-            Translation
-            Economics
-          ]
-        }
-      },
-      user3: {
-        age: 30,
-        gender: 'Female',
-        name: 'Daisy Harris',
-        occupation: 'High School Teacher',
-        skills: {
-          languages: %w[
-            English
-            Spanish
-          ],
-          expertise: [
-            'Teaching Foreign Language'
-          ]
-        }
-      }
-    }
+    fixture_json('users_sorted_asc.json')
   end
 
   def sorted_user_data_by_desc
-    {
-      user3: {
-        skills: {
-          languages: %w[
-            English
-            Spanish
-          ],
-          expertise: [
-            'Teaching Foreign Language'
-          ]
-        },
-        occupation: 'High School Teacher',
-        name: 'Daisy Harris',
-        gender: 'Female',
-        age: 30
-      },
-      user2: {
-        skills: {
-          languages: %w[
-            Japanese
-            English
-            Spanish
-            German
-            French
-          ],
-          expertise: %w[
-            Marketing
-            Accounting
-            Interpretation
-            Translation
-            Economics
-          ]
-        },
-        occupation: 'Global Trading Marketer',
-        name: 'Wade Williams',
-        gender: 'Male',
-        age: 45
-      },
-      user1: {
-        skills: {
-          languages: %w[
-            Japanese
-            English
-          ],
-          expertise: [
-            'Server-Side Programming',
-            'Front-end Programming',
-            'Infrastructure Management',
-            'Team Members Management'
-          ]
-        },
-        occupation: 'Software Engineer',
-        name: 'Wade Williams',
-        age: 35
-      }
-    }
+    fixture_json('users_sorted_desc.json')
   end
 end
