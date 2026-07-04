@@ -1,109 +1,37 @@
+"""Tests the JSON data sorter against fixture data under test/fixtures/."""
+
 import json
+import os
 from typing import Any
 
 import pytest
 
 from application import Application
 
+_FIXTURES_DIR = os.path.join('.', 'test', 'fixtures')
+
 
 def _read_json(filepath: str) -> Any:
-    with open(filepath) as f:
+    with open(filepath, encoding='utf-8') as f:
         return json.load(f)
 
 
-_SORTED_BY_ASC = {
-    'user1': {
-        'age': 35,
-        'name': 'Wade Williams',
-        'occupation': 'Software Engineer',
-        'skills': {
-            'languages': ['Japanese', 'English'],
-            'expertise': [
-                'Server-Side Programming',
-                'Front-end Programming',
-                'Infrastructure Management',
-                'Team Members Management',
-            ],
-        },
-    },
-    'user2': {
-        'age': 45,
-        'gender': 'Male',
-        'name': 'Wade Williams',
-        'occupation': 'Global Trading Marketer',
-        'skills': {
-            'languages': [
-                'Japanese', 'English', 'Spanish', 'German', 'French'],
-            'expertise': [
-                'Marketing', 'Accounting', 'Interpretation',
-                'Translation', 'Economics'],
-        },
-    },
-    'user3': {
-        'age': 30,
-        'gender': 'Female',
-        'name': 'Daisy Harris',
-        'occupation': 'High School Teacher',
-        'skills': {
-            'languages': ['English', 'Spanish'],
-            'expertise': ['Teaching Foreign Language'],
-        },
-    },
-}
-
-_SORTED_BY_DESC = {
-    'user3': {
-        'skills': {
-            'languages': ['English', 'Spanish'],
-            'expertise': ['Teaching Foreign Language'],
-        },
-        'occupation': 'High School Teacher',
-        'name': 'Daisy Harris',
-        'gender': 'Female',
-        'age': 30,
-    },
-    'user2': {
-        'skills': {
-            'languages': [
-                'Japanese', 'English', 'Spanish', 'German', 'French'],
-            'expertise': [
-                'Marketing', 'Accounting', 'Interpretation',
-                'Translation', 'Economics'],
-        },
-        'occupation': 'Global Trading Marketer',
-        'name': 'Wade Williams',
-        'gender': 'Male',
-        'age': 45,
-    },
-    'user1': {
-        'skills': {
-            'languages': ['Japanese', 'English'],
-            'expertise': [
-                'Server-Side Programming',
-                'Front-end Programming',
-                'Infrastructure Management',
-                'Team Members Management',
-            ],
-        },
-        'occupation': 'Software Engineer',
-        'name': 'Wade Williams',
-        'age': 35,
-    },
-}
+def _fixture_json(basename: str) -> Any:
+    return _read_json(os.path.join(_FIXTURES_DIR, basename))
 
 
 def test_sort_json_data_by_asc(
         users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, filepath = users_workspace
     Application.run(dirname=dirname, filename=filename, order='asc')
-    assert _read_json(filepath) == _SORTED_BY_ASC
+    assert _read_json(filepath) == _fixture_json('users_sorted_asc.json')
 
 
 def test_sort_json_data_by_desc(
         users_workspace: tuple[str, str, str]) -> None:
     dirname, filename, filepath = users_workspace
     Application.run(dirname=dirname, filename=filename, order='desc')
-    assert _read_json(filepath) == _SORTED_BY_DESC
+    assert _read_json(filepath) == _fixture_json('users_sorted_desc.json')
 
 
 def test_sort_json_data_with_no_filename(

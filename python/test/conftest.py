@@ -1,6 +1,5 @@
 import pytest
 import re
-import json
 import os
 import shutil
 import sys
@@ -8,57 +7,7 @@ from collections.abc import Iterator
 
 sys.path.append('./src')
 
-
-_USER_DATA = {
-    'user2': {
-        'name': 'Wade Williams',
-        'age': 45,
-        'gender': 'Male',
-        'occupation': 'Global Trading Marketer',
-        'skills': {
-            'languages': [
-                'Japanese',
-                'English',
-                'Spanish',
-                'German',
-                'French'],
-            'expertise': [
-                'Marketing',
-                'Accounting',
-                'Interpretation',
-                'Translation',
-                'Economics'],
-        },
-    },
-    'user3': {
-        'name': 'Daisy Harris',
-        'age': 30,
-        'gender': 'Female',
-        'occupation': 'High School Teacher',
-        'skills': {
-            'languages': [
-                'English',
-                'Spanish'],
-            'expertise': ['Teaching Foreign Language'],
-        },
-    },
-    'user1': {
-        'name': 'Wade Williams',
-        'age': 35,
-        'occupation': 'Software Engineer',
-        'skills': {
-            'languages': [
-                'Japanese',
-                'English'],
-            'expertise': [
-                'Server-Side Programming',
-                'Front-end Programming',
-                'Infrastructure Management',
-                'Team Members Management',
-            ],
-        },
-    },
-}
+_FIXTURES_DIR = os.path.join('.', 'test', 'fixtures')
 
 
 @pytest.fixture(autouse=True)
@@ -78,8 +27,7 @@ def users_workspace() -> Iterator[tuple[str, str, str]]:
     filename = 'users.json'
     filepath = os.path.join(dirname, filename)
     os.makedirs(dirname, exist_ok=True)
-    with open(filepath, 'w') as f:
-        f.write(json.dumps(_USER_DATA, ensure_ascii=False, indent=2))
+    shutil.copyfile(os.path.join(_FIXTURES_DIR, filename), filepath)
     yield dirname, filename, filepath
     if os.path.exists(dirname):
         shutil.rmtree(dirname)
