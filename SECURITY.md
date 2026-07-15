@@ -9,8 +9,8 @@
 | ------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
 | OS baseline   | WSL (Ubuntu 25.10)                 | Shared environment across tracks.                                                        |
 | Ruby sorter   | Ruby 4.0.6 (`.ruby-version`)       | Uses Ruby stdlib (`JSON`, `FileUtils`). Declare extra gems if introduced.                |
-| Gemfile       | 4.0.14                             | Per-project dependency manifest; versions install via Bundler.                           |
-| Bundler       | 4.0.14                             | Resolves and installs the gems declared in the Gemfile.                                  |
+| Gemfile       | 4.0.16                             | Per-project dependency manifest; versions install via Bundler.                           |
+| Bundler       | 4.0.16                             | Resolves and installs the gems declared in the Gemfile.                                  |
 | Python sorter | CPython 3.14.6 (`.python-version`) | Uses Python stdlib (`json`, `argparse`). Add `requirements.txt` for third-party modules. |
 
 ## Backward Compatibility
